@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi agenda de estudio</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="stylesheet" href="./css/main.css">
+
+
+</head>
+
+<body>
+
+    <div class="aplicacion">
+
+        <aside class="menu-lateral">
+
+            <a href="#inicio" class="marca">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>DW NOTAS</span>
+            </a>
+
+            <p class="menu-titulo">MENÚ PRINCIPAL</p>
+
+            <nav class="navegacion">
+
+                <a href="#hoy" class="enlace-menu activo">
+                    <i class="bi bi-calendar-check"></i>
+                    <span>Actividades de hoy</span>
+                </a>
+
+                <a href="#actividades" class="enlace-menu">
+                    <i class="bi bi-list-task"></i>
+                    <span>Todas las actividades</span>
+                </a>
+
+                <a href="#materias" class="enlace-menu">
+                    <i class="bi bi-book"></i>
+                    <span>Mis materias</span>
+                </a>
+
+                <a href="#progreso" class="enlace-menu">
+                    <i class="bi bi-graph-up-arrow"></i>
+                    <span>Mi progreso</span>
+                </a>
+
+            </nav>
+
+            <div class="menu-inferior">
+                <p>Organizo mi tiempo, alcanzo mis metas.</p>
+            </div>
+
+        </aside>
+
+
+        <main class="contenido-principal">
+
+            <header class="barra-superior">
+
+                <button class="boton-menu-movil" type="button" aria-label="Abrir menú">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <div>
+                    <p class="texto-superior">MI ESPACIO ACADÉMICO</p>
+                    <h1 id="titulo-seccion">Actividades de hoy</h1>
+                </div>
+
+                <button id="boton-nueva-actividad" class="boton-nueva-actividad" type="button" data-bs-toggle="modal"
+                    data-bs-target="#modalActividad">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>Nueva actividad</span>
+                </button>
+
+            </header>
+
+
+            <section id="hoy" class="seccion-contenido">
+
+                <div class="bienvenida">
+                    <h2>Organiza tu jornada</h2>
+                    <p>
+                        Consulta tus actividades y toma el control
+                        de los compromisos académicos.
+                    </p>
+                </div>
+
+
+                <div class="resumen-grid">
+
+                    <article class="tarjeta-resumen">
+                        <div class="icono-resumen icono-azul">
+                            <i class="bi bi-list-check"></i>
+                        </div>
+
+                        <p>Tareas de hoy</p>
+                        <h3>0</h3>
+                        <span>Actividades programadas</span>
+                    </article>
+
+                    <article class="tarjeta-resumen">
+                        <div class="icono-resumen icono-verde">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+
+                        <p>Completadas</p>
+                        <h3>0</h3>
+                        <span>Actividades terminadas</span>
+                    </article>
+
+                    <article class="tarjeta-resumen">
+                        <div class="icono-resumen icono-naranja">
+                            <i class="bi bi-exclamation-circle"></i>
+                        </div>
+
+                        <p>Prioridad alta</p>
+                        <h3>0</h3>
+                        <span>Requieren atención</span>
+                    </article>
+
+                </div>
+
+                <section class="panel-actividades">
+
+                    <div class="encabezado-panel">
+
+                        <div>
+                            <h2>Mis tareas de hoy</h2>
+                            <p>Tu planificación diaria</p>
+                        </div>
+
+                        <a href="#actividades" class="enlace-ver-todas">
+                            Ver todas
+                        </a>
+                    </div>
+
+                    <div class="estado-vacio">
+                        <i class="bi bi-journal-check"></i>
+                        <h3>Aún no tienes actividades</h3>
+                        <p>
+                            Cuando registres una tarea,
+                            aparecerá aquí.
+                        </p>
+                    </div>
+                    <div id="lista-actividades"></div>
+
+                </section>
+
+            </section>
+
+
+
+
+            <section id="actividades" class="seccion-listado-actividades">
+
+                <div class="encabezado-listado">
+                    <div>
+                        <h2>Todas las actividades</h2>
+                        <p>Consulta y organiza tus actividades académicas.</p>
+                    </div>
+                </div>
+
+
+                <div class="filtros-actividades">
+
+                    <div class="busqueda-actividades">
+                        <i class="bi bi-search"></i>
+                        <input type="search" id="buscar-actividad" placeholder="Buscar actividad por nombre..."
+                            aria-label="Buscar actividad por nombre">
+                    </div>
+
+                    <select id="filtro-estado" aria-label="Filtrar por estado">
+                        <option value="">Todos los estados</option>
+                        <option value="PENDIENTE">Pendientes</option>
+                        <option value="EN_PROGRESO">En progreso</option>
+                        <option value="COMPLETADA">Completadas</option>
+                    </select>
+
+                    <select id="filtro-prioridad" aria-label="Filtrar por prioridad">
+                        <option value="">Todas las prioridades</option>
+                        <option value="ALTA">Alta</option>
+                        <option value="MEDIA">Media</option>
+                        <option value="BAJA">Baja</option>
+                    </select>
+
+                    <select id="filtro-materia" aria-label="Filtrar por materia">
+                        <option value="">Todas las materias</option>
+                    </select>
+
+                    <button type="button" id="limpiar-filtros" class="boton-limpiar-filtros">
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        Limpiar
+                    </button>
+
+                </div>
+
+
+                <p id="contador-actividades" class="contador-actividades">
+                    No hay actividades registradas.
+                </p>
+
+
+                <div id="listado-todas-actividades" class="lista-todas-actividades">
+
+                    <div id="vacio-listado-actividades" class="estado-vacio-listado">
+                        <i class="bi bi-journal-text"></i>
+                        <h3>No hay actividades para mostrar</h3>
+                        <p>Registra una nueva actividad o cambia los filtros.</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- VENTANA EMERGENTE, PARA REGISTRAR NUEVA ACTIVIDAD -->
+            <div class="modal fade" id="modalActividad" tabindex="-1" aria-labelledby="tituloModalActividad"
+                aria-hidden="true">
+
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-academico">
+
+                        <div class="modal-header">
+                            <div>
+                                <h2 class="modal-title fs-5" id="tituloModalActividad">
+                                    Nueva actividad
+                                </h2>
+                                <p class="texto-modal mb-0">
+                                    Registra un compromiso académico.
+                                </p>
+                            </div>
+
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
+                        </div>
+
+                        <form id="formulario-actividad">
+
+                            <div class="modal-body">
+
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">
+                                        Nombre de la actividad *
+                                    </label>
+                                    <input type="text" class="form-control" id="nombre" maxlength="120"
+                                        placeholder="Ej. Proyecto de Java" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="descripcion" class="form-label">
+                                        Descripción
+                                    </label>
+                                    <textarea class="form-control" id="descripcion" rows="3" maxlength="1000"
+                                        placeholder="Detalles de la actividad"></textarea>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="materia" class="form-label">
+                                        Materia
+                                    </label>
+                                    <select class="form-select" id="materia" name="materia" required>
+                                        <option value="" selected disabled>
+                                            Selecciona una materia
+                                        </option>
+                                    </select>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label for="asignadoA" class="form-label">
+                                        Responsable
+                                    </label>
+                                    <input type="text" class="form-control" id="asignadoA" maxlength="100"
+                                        placeholder="Nombre del responsable">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="fechaEntrega" class="form-label">
+                                        Fecha de entrega *
+                                    </label>
+                                    <input type="date" class="form-control" id="fechaEntrega" required>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="estado" class="form-label">
+                                            Estado
+                                        </label>
+                                        <select class="form-select" id="estado">
+                                            <option value="PENDIENTE">Pendiente</option>
+                                            <option value="EN_PROGRESO">En progreso</option>
+                                            <option value="COMPLETADA">Completada</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="prioridad" class="form-label">
+                                            Prioridad
+                                        </label>
+                                        <select class="form-select" id="prioridad">
+                                            <option value="BAJA">Baja</option>
+                                            <option value="MEDIA" selected>Media</option>
+                                            <option value="ALTA">Alta</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+
+                                <button type="submit" class="btn btn-guardar">
+                                    Guardar actividad
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <section id="materias" class="seccion-materias">
+
+                <div class="encabezado-materias">
+                    <div>
+                        <h2>Mis materias</h2>
+                        <p>Organiza tus asignaturas en un solo lugar.</p>
+                    </div>
+
+                    <button type="button" class="boton-nueva-materia" data-bs-toggle="modal"
+                        data-bs-target="#modalMateria">
+
+                        <i class="bi bi-plus-lg"></i>
+                        Nueva materia
+                    </button>
+                </div>
+
+                <div class="resumen-materias">
+                    <i class="bi bi-book-half"></i>
+                    <div>
+                        <p>Materias registradas</p>
+                        <strong id="total-materias">0</strong>
+                    </div>
+                </div>
+
+                <div id="lista-materias" class="lista-materias">
+
+                    <div class="estado-vacio-materias" id="vacio-materias">
+                        <i class="bi bi-journal-plus"></i>
+                        <h3>Aún no tienes materias</h3>
+                        <p>Registra tu primera materia para comenzar.</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <div class="modal fade" id="modalMateria" tabindex="-1" aria-labelledby="tituloModalMateria"
+                aria-hidden="true">
+
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content modal-materia">
+
+                        <div class="modal-header">
+                            <div>
+                                <h2 class="modal-title fs-5" id="tituloModalMateria">
+                                    Nueva materia
+                                </h2>
+                                <p class="mb-0 texto-modal">
+                                    Completa los datos de la asignatura.
+                                </p>
+                            </div>
+
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
+                        </div>
+
+                        <form id="formulario-materia">
+
+                            <div class="modal-body">
+
+                                <div class="mb-3">
+                                    <label for="nombre-materia" class="form-label">
+                                        Nombre de la materia *
+                                    </label>
+
+                                    <input type="text" class="form-control" id="nombre-materia" maxlength="100"
+                                        placeholder="Ej. Programación Java" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="descripcion-materia" class="form-label">
+                                        Descripción
+                                    </label>
+
+                                    <textarea class="form-control" id="descripcion-materia" rows="3" maxlength="500"
+                                        placeholder="Descripción de la asignatura"></textarea>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                                    Cancelar
+                                </button>
+
+                                <button type="submit" class="btn btn-guardar">
+                                    Guardar materia
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <section id="progreso" class="seccion-progreso">
+
+                <div class="encabezado-progreso">
+                    <div>
+                        <h2>Mi progreso académico</h2>
+                        <p>Consulta tu avance y el estado de tus actividades.</p>
+                    </div>
+                </div>
+
+
+                <div class="resumen-progreso">
+
+                    <article class="tarjeta-progreso">
+                        <span>Total de actividades</span>
+                        <strong id="progreso-total">0</strong>
+                    </article>
+
+                    <article class="tarjeta-progreso">
+                        <span>Completadas</span>
+                        <strong id="progreso-completadas">0</strong>
+                    </article>
+
+                    <article class="tarjeta-progreso">
+                        <span>Pendientes</span>
+                        <strong id="progreso-pendientes">0</strong>
+                    </article>
+
+                    <article class="tarjeta-progreso">
+                        <span>Vencidas</span>
+                        <strong id="progreso-vencidas">0</strong>
+                    </article>
+
+                </div>
+
+
+                <article class="panel-cumplimiento">
+
+                    <div class="encabezado-cumplimiento">
+                        <h3>Porcentaje de cumplimiento</h3>
+                        <strong id="progreso-porcentaje">0%</strong>
+                    </div>
+
+                    <div class="barra-progreso" role="progressbar" aria-label="Progreso de actividades completadas"
+                        aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="barra-progreso">
+                        <div class="barra-progreso-valor" id="barra-progreso-valor"></div>
+                    </div>
+
+                    <p id="mensaje-progreso">
+                        Tus actividades aparecerán aquí cuando las registres.
+                    </p>
+
+                </article>
+
+
+                <article class="panel-progreso-materias">
+
+                    <div class="encabezado-progreso-materias">
+                        <h3>Progreso por materia</h3>
+                        <p>Actividades completadas y pendientes por asignatura.</p>
+                    </div>
+
+                    <div id="lista-progreso-materias">
+                        <p class="estado-vacio-progreso">
+                            Aún no hay actividades para mostrar.
+                        </p>
+                    </div>
+
+                </article>
+
+            </section>
+
+
+
+
+
+
+
+            <!--Nueva implementacion -->
+
+        </main>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module" src="js/materias.js"></script>
+    <script type="module" src="js/actividades.js"></script>
+    <script type="module" src="js/nueva-actividad.js"></script>
+    <script type="module" src="js/progreso.js"></script>
+    <script src="js/navegacion.js"></script>
+    <script type="module" src="js/temporal.js"></script>
+</body>
+
+</html>
