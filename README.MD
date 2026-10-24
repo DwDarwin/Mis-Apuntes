@@ -1,9 +1,10 @@
+## DW NOTAS
+--- 
 
-DW NOTAS 
+Presentacion Spring 1 y 2
 
-SPRING 1 Y 2
-
-1. Descripcion del proyecto "DW NOTAS"
+---
+# 1. DESCRIPCION DEL PROYECTO "DW NOTAS"
 
 Esta aplicacion web esta orientada a la organizacion y seguimiento de las actividades tipo academicas
 el objetivo principal es llevar una planificacion de las tareas, consultar materias, el progreso de las actividades 
@@ -11,8 +12,8 @@ facilitando una vision mas clara y controlada de estos compromisos academicos.
 
 Tambien esta orientado a facilitar las consultas de tareas por medio de un chat potencializado con IA dentro de la aplicacion
 
-
-2. ARQUITECTURA 
+---
+# 2. ARQUITECTURA 
 
 La organizacion estructural de la agenda esta separada por responsabilidades 
 
@@ -44,8 +45,8 @@ secciones de estilos
 -JS (carpeta)
 secciones de funcionalidades e integracion
 
-
-3. ESTRUCTURA DE LA AGENDA 
+---
+# 3. ESTRUCTURA DE LA AGENDA 
 
 Organizacion de la aplicacion 
 
@@ -55,7 +56,7 @@ Dentro de esta seccion tambien cuenta con un boton para agregar una nueva activi
 se muestran las tarjetas de cada actividad y sus parametros adicionalmente se integró un boton para eliminar la actividad.
 
 - Todas las actividades 
-Aqi se muestra un listado general de todas la tareas registradas, barra de busqueda, filtro por prioridad, estado, materia y setear busqueda.
+Aqui se muestra un listado general de todas la tareas registradas, barra de busqueda, filtro por prioridad, estado, materia y setear busqueda.
 se muestran las tarjetas de cada actividad y sus parametros adicionalmente se integraron dos botones dentro de las tarjetas
 un boton para pasar la actividad a completada y otro para eliminar la actividad.
 
@@ -72,8 +73,8 @@ barra de progreso por materia
 - Boton nueva actividad (presente en "Actividades de hoy" y "Todas las actividades")
 Este boton que registra las actividades cuenta con un formulario que debe diligenciarse bajo ciertos parametros de aceptacion para cada campo 
 
-
-4. PERSISTENCIA DE DATOS (BD aun no implementada)
+---
+# 4. PERSISTENCIA DE DATOS (BD aun no implementada)
 
 Se estan almacenando datos de pruebas que estan definidos en JavaScript para que se muestren en las vistas los eventos que las sincronizan son de prueba y los eventos que recibiran de la base de datos estan comentados para evitar duplicidad o erores al momento de ejecutar la version actual. 
 
