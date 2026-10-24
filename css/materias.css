@@ -1,0 +1,249 @@
+
+.seccion-materias {
+    display: none;
+}
+
+.seccion-materias.visible {
+    display: block;
+}
+
+.encabezado-materias {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.encabezado-materias h2 {
+    margin: 0 0 8px;
+    color: var(--texto);
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.encabezado-materias p {
+    margin: 0;
+    color: var(--texto-secundario);
+    font-size: 14px;
+}
+
+.boton-nueva-materia {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 16px;
+    border: 1px solid var(--verde-neon);
+    border-radius: 9px;
+    background: var(--verde-neon);
+    color: #052E22;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.boton-nueva-materia:hover {
+    background: var(--verde-neon-glow);
+}
+
+.resumen-materias {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+    padding: 17px 20px;
+    border: 1px solid var(--borde);
+    border-radius: 11px;
+    background: var(--superficie-card);
+}
+
+.resumen-materias i {
+    color: var(--verde-neon);
+    font-size: 24px;
+}
+
+.resumen-materias p {
+    margin: 0;
+    color: var(--texto-secundario);
+    font-size: 13px;
+}
+
+.resumen-materias strong {
+    display: block;
+    margin-top: 3px;
+    color: var(--texto);
+    font-size: 19px;
+}
+
+.lista-materias {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.tarjeta-materia {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+    background: var(--superficie-card);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.tarjeta-materia:hover {
+    transform: translateY(-3px);
+    border-color: var(--verde-neon);
+}
+
+.materia-cabecera {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.icono-materia {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+    border-radius: 11px;
+    background: #10B98120;
+    color: var(--verde-neon-glow);
+    font-size: 22px;
+}
+
+.boton-eliminar-materia {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--texto-secundario);
+    cursor: pointer;
+}
+
+.boton-eliminar-materia:hover {
+    border-color: var(--alerta-naranja);
+    color: var(--alerta-naranja);
+}
+
+.tarjeta-materia h3 {
+    margin: 0 0 9px;
+    color: var(--texto);
+    font-size: 17px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.descripcion-materia {
+    min-height: 40px;
+    margin: 0 0 20px;
+    color: var(--texto-secundario);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.pie-materia {
+    padding-top: 15px;
+    border-top: 1px solid var(--borde);
+    color: var(--texto-secundario);
+    font-size: 12px;
+}
+
+.estado-vacio-materias {
+    grid-column: 1 / -1;
+    padding: 45px 20px;
+    border: 1px dashed var(--borde);
+    border-radius: 13px;
+    text-align: center;
+}
+
+.estado-vacio-materias i {
+    color: var(--verde-neon);
+    font-size: 40px;
+}
+
+.estado-vacio-materias h3 {
+    margin: 14px 0 8px;
+    color: var(--texto);
+    font-size: 17px;
+}
+
+.estado-vacio-materias p {
+    margin: 0;
+    color: var(--texto-secundario);
+    font-size: 13px;
+}
+
+.modal-materia {
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+    background: var(--superficie-card);
+    color: var(--texto);
+}
+
+.modal-materia .modal-header,
+.modal-materia .modal-footer {
+    border-color: var(--borde);
+}
+
+.modal-materia .form-label {
+    color: var(--texto);
+    font-size: 13px;
+}
+
+.modal-materia .form-control {
+    border: 1px solid var(--borde);
+    background: var(--fondo);
+    color: var(--texto);
+}
+
+.modal-materia .form-control::placeholder {
+    color: var(--texto-secundario);
+}
+
+.modal-materia .form-control:focus {
+    border-color: var(--verde-neon);
+    box-shadow: 0 0 0 3px #10B98125;
+
+
+}
+
+
+/*
+@media (max-width: 1000px) {
+    .lista-materias {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+*/
+@media (max-width: 600px) {
+    .lista-materias {
+        grid-template-columns: 1fr;
+    }
+
+    .boton-nueva-materia {
+        width: 100%;
+    }
+
+    .tarjeta-materia {
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+    background: var(--superficie-card);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+}
+
+

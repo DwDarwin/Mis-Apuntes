@@ -1,0 +1,133 @@
+
+.modal-academico {
+    background-color: var(--superficie-card);
+    color: var(--texto);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+}
+
+.modal-academico .modal-header,
+.modal-academico .modal-footer {
+    border-color: var(--borde);
+    padding: 20px 24px;
+}
+
+.modal-academico .modal-body {
+    padding: 24px;
+}
+
+.texto-modal {
+    color: var(--texto-secundario);
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.modal-academico .form-label {
+    color: var(--texto);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.modal-academico .form-control,
+.modal-academico .form-select {
+    background-color: var(--fondo);
+    color: var(--texto);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    padding: 11px 12px;
+}
+
+.modal-academico .form-control::placeholder {
+    color: var(--texto-secundario);
+    opacity: 0.8;
+}
+
+.modal-academico .form-control:focus,
+.modal-academico .form-select:focus {
+    border-color: var(--verde-neon);
+    box-shadow: 0 0 0 3px #10B98125;
+}
+
+.modal-academico input[type="date"] {
+    color-scheme: dark;
+}
+
+.btn-guardar {
+    background-color: var(--verde-neon);
+    color: #052E22;
+    border: 1px solid var(--verde-neon);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-weight: 700;
+}
+
+.btn-guardar:hover {
+    background-color: var(--verde-neon-glow);
+    border-color: var(--verde-neon-glow);
+    color: #052E22;
+}
+
+.boton-eliminar {
+    padding: 8px 14px;
+    margin-top: 12px;
+    border: 1px solid #ef4444;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #ef4444;
+    cursor: pointer;
+}
+
+.boton-eliminar:hover {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+
+
+.actividad-item {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.actividad-item:last-child {
+    border-bottom: none;
+}
+
+.actividad-item h3 {
+    color: var(--texto);
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.actividad-item p {
+    color: var(--texto-secundario);
+    font-size: 13px;
+    margin-bottom: 8px;
+    overflow-wrap: anywhere;
+}
+
+.detalle-actividad {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    color: var(--texto-secundario);
+    font-size: 12px;
+}
+
+.etiqueta-actividad {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 6px;
+    background-color: var(--azul-oscuro);
+    color: var(--texto-secundario);
+    font-size: 11px;
+}
+
+.etiqueta-alta {
+    color: var(--alerta-naranja);
+}
+
+.etiqueta-completada {
+    color: var(--verde-neon-glow);
+}

@@ -1,0 +1,21 @@
+
+:root {
+    
+    --verde-neon: #10B981;
+    --verde-neon-glow: #34D399;
+
+   
+    --azul-oscuro: #0F172A;
+    --azul-secundario: #1E293B;
+    --fondo: #0B0F19;
+    --superficie-card: #1E293B;
+
+
+    --texto: #F8FAFC;
+    --texto-secundario: #94A3B8;
+    --borde: #334155;
+
+    
+    --blanco: #FFFFFF;
+    --alerta-naranja: #F59E0B;
+}
