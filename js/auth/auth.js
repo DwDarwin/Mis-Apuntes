@@ -118,7 +118,7 @@ loginForm.addEventListener("submit", (event) => {
     if (!valid) return;
 
     showMessage(loginForm,
-        "La pantalla está lista. Para iniciar sesión con una cuenta real, falta conectar el backend de Spring Boot.",
+        "en construccion",
         "success");
 });
 
@@ -152,6 +152,6 @@ registerForm.addEventListener("submit", (event) => {
     if (!valid) return;
 
     showMessage(registerForm,
-        "El formulario está validado. Para crear una cuenta real, falta conectarlo al backend de Spring Boot.",
+        "En construccion.",
         "success");
 });
