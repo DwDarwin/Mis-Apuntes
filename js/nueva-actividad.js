@@ -1,9 +1,3 @@
-
-import {
-    actividadPrueba
-
-} from "./temporal.js";
-
 const formulario = document.getElementById("formulario-actividad");
 const listaActividades = document.getElementById("lista-actividades");
 const estadoVacio = document.querySelector(".estado-vacio");
@@ -12,13 +6,8 @@ const modalElemento = document.getElementById("modalActividad");
 const modalActividad = bootstrap.Modal.getOrCreateInstance(modalElemento);
 
 /*deshabilitado temporal*/
-/*
+
 const actividades = [];
-*/
-
-
-
-
 
 class TaskManager {
     constructor(actividades) {
@@ -54,34 +43,13 @@ class TaskManager {
 }
 
 
-
-/*datos temporales tres constantes*/
-
-const actividades = actividadPrueba.map(actividad => ({
-    ...actividad
-}));
-
-window.actividades = actividades;   //conexion con arreglo en actividades.js//
-
-const taskManager = new TaskManager(actividades);
-window.taskManager = taskManager;
-
-window.dispatchEvent(
-    new CustomEvent("actividadesActualizadas")
-);
-
-/* deshabilitado por pruebas
 window.actividades = actividades;   //conexion con arreglo en actividades.js//
 
 const taskManager = new TaskManager(actividades);
 
 window.taskManager = taskManager;
-
-*/
-
 
 const campoFecha = document.getElementById("fechaEntrega");
-
 
 
 function obtenerFechaLocal() {
@@ -151,7 +119,13 @@ formulario.addEventListener("submit", function (evento) {
     formulario.reset();
     campoFecha.min = obtenerFechaLocal();
 
-    modalActividad.hide();
+    const botonCerrar = modalElemento.querySelector(
+        '[data-bs-dismiss="modal"]'
+    );
+
+    if (botonCerrar) {
+        botonCerrar.click();
+    }
 });
 
 
@@ -303,3 +277,8 @@ document.addEventListener("DOMContentLoaded", function () {
     renderizarActividades();
     actualizarResumen();
 });
+
+// Compartir funciones con los demás módulos
+window.renderizarActividades = renderizarActividades;
+window.actualizarResumen = actualizarResumen;
+window.formatearValor = formatearValor;

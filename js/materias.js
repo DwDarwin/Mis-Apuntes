@@ -1,15 +1,21 @@
-import { materiasPrueba } from "./temporal.js";
-
-
 const formularioMateria = document.getElementById("formulario-materia");
 const listaMaterias = document.getElementById("lista-materias");
 const totalMaterias = document.getElementById("total-materias");
 const modalMateriaElemento = document.getElementById("modalMateria");
 
 const modalMateria = bootstrap.Modal.getOrCreateInstance(
-    modalMateriaElemento
+    modalMateriaElemento,
+    {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    }
 );
-
+modalMateriaElemento.addEventListener("hide.bs.modal", function () {
+    if (modalMateriaElemento.contains(document.activeElement)) {
+        document.activeElement.blur();
+    }
+});
 
 function actualizarSelectorMaterias() {
     const selectorMateria = document.getElementById("materia");
@@ -46,14 +52,7 @@ function actualizarSelectorMaterias() {
     }
 }
 
-
-/*deshabilitado temporalmente, mientras estan archivos de prueba*/
-/*
 const materias = [];
-*/
-
-/*prueba temporal*/
-const materias = materiasPrueba.map(materia => ({ ...materia }));
 
 
 function renderizarMaterias() {
@@ -195,7 +194,12 @@ formularioMateria.addEventListener("submit", function (evento) {
     renderizarMaterias();
 
     formularioMateria.reset();
-    modalMateria.hide();
+
+    const botonCerrar = modalMateriaElemento.querySelector(".btn-close");
+
+    if (botonCerrar) {
+        botonCerrar.click();
+    }
 });
 
 
