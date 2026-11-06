@@ -1,11 +1,11 @@
 :root {
-    --auth-green: var(--verde-neon, #10B981);
-    --auth-green-light: var(--verde-neon-glow, #34D399);
-    --auth-bg: var(--fondo, #0B0F19);
-    --auth-panel: var(--azul-secundario, #1E293B);
+    --auth-green: var(--acento-principal, #E95420);
+    --auth-green-light: var(--acento-glow, #FA6933);
+    --auth-bg: var(--fondo, #1E1E1E);
+    --auth-panel: var(--menu-activo, #5E2750);
     --auth-text: var(--texto, #F8FAFC);
-    --auth-muted: var(--texto-secundario, #94A3B8);
-    --auth-border: var(--borde, #334155);
+    --auth-muted: var(--texto-secundario, #AEA7AE);
+    --auth-border: var(--borde, #424242);
 }
 
 * {
@@ -69,7 +69,7 @@
     width: 42px;
     height: 42px;
     border-radius: 13px;
-    color: #052e24;
+    color: #2C001E;
     background: var(--auth-green-light);
     box-shadow: 0 0 28px #10b98126;
     font-size: 1.25rem;
@@ -244,7 +244,7 @@
 
 .auth-submit:hover {
     transform: translateY(-1px);
-    background: #6EE7B7;
+    background: #ef4444;
     box-shadow: 0 10px 28px #10b98126;
 }
 
@@ -315,15 +315,16 @@
     padding: 50px clamp(28px, 5vw, 76px);
     overflow: hidden;
     background:
-        radial-gradient(ellipse at 80% 15%, #10b98124, transparent 38%),
-        radial-gradient(ellipse at 10% 90%, #0f766e26, transparent 40%),
-        linear-gradient(145deg, #111C2D, #0F172A 65%, #0B1720);
+        radial-gradient(ellipse at 80% 15%, #e9542024, transparent 38%),
+        radial-gradient(ellipse at 10% 90%, #5e275026, transparent 40%),
+        linear-gradient(145deg, #2C001E, #1E1E1E 65%, #121212);
 }
+
 
 .auth-visual-panel::before {
     position: absolute;
     inset: 0;
-    background-image: linear-gradient(#94A3B808 1px, transparent 1px), linear-gradient(90deg, #94A3B808 1px, transparent 1px);
+    background-image: linear-gradient(#aea7ae08 1px, transparent 1px), linear-gradient(90deg, #aea7ae08 1px, transparent 1px);
     background-size: 38px 38px;
     mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 80%, transparent);
     content: "";
@@ -341,7 +342,7 @@
     right: -100px;
     width: 260px;
     height: 260px;
-    background: #10b9810d;
+    background: #e60000;
 }
 
 .visual-glow-two {
@@ -349,7 +350,7 @@
     left: -110px;
     width: 300px;
     height: 300px;
-    background: #34d3990c;
+    background: #380829);
 }
 
 .visual-content {
@@ -364,10 +365,10 @@
     align-items: center;
     gap: 9px;
     padding: 9px 12px;
-    border: 1px solid #34D39935;
+    border: 1px solid #FA6933;
     border-radius: 999px;
-    color: #A7F3D0;
-    background: #10B98112;
+    color: #FA6933;
+    background: #1E1E1E;
     font-size: .68rem;
     font-weight: 800;
     letter-spacing: .12em;
@@ -468,7 +469,7 @@
 }
 
 .mini-label {
-    color: #6EE7B7;
+    color: #FA6933;
     font-size: .58rem;
     font-weight: 800;
     letter-spacing: .12em;
@@ -486,21 +487,9 @@
     border-top: 1px solid #334155;
 }
 
-.task-check {
-    display: grid;
-    flex: 0 0 25px;
-    place-items: center;
-    width: 25px;
-    height: 25px;
-    border-radius: 8px;
-    color: #052E24;
-    background: #34D399;
-}
 
-.task-check-empty {
-    border: 1px solid #64748B;
-    background: transparent;
-}
+
+
 
 .task-copy {
     display: grid;
@@ -526,8 +515,8 @@
 .task-status {
     padding: 5px 8px;
     border-radius: 7px;
-    color: #A7F3D0;
-    background: #10B9811F;
+    color: #1E1E1E;
+    background: #E95420;
     font-size: .62rem;
 }
 

@@ -86,11 +86,11 @@
 }
 
 .tarjeta-progreso:nth-child(2) strong {
-    color: var(--verde-neon-glow);
+    color: var(--alerta-naranja);
 }
 
 .tarjeta-progreso:nth-child(4) strong {
-    color: var(--alerta-naranja);
+    color: var(--verde-neon);
 }
 
 

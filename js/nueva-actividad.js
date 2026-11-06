@@ -155,6 +155,7 @@ formulario.addEventListener("submit", function (evento) {
 });
 
 
+
 function renderizarActividades() {
     listaActividades.replaceChildren();
 
@@ -162,60 +163,79 @@ function renderizarActividades() {
 
     actividades.forEach(function (actividad) {
         const tarjeta = document.createElement("article");
-        tarjeta.className = "actividad-item";
+        tarjeta.className = "tarjeta-listado-actividad";
 
+        // Título
         const titulo = document.createElement("h3");
         titulo.textContent = actividad.nombre;
         tarjeta.appendChild(titulo);
 
+        // Descripción
         if (actividad.descripcion) {
             const descripcion = document.createElement("p");
             descripcion.textContent = actividad.descripcion;
             tarjeta.appendChild(descripcion);
         }
 
+        // Contenedor de detalles
         const detalles = document.createElement("div");
-        detalles.className = "detalle-actividad";
+        detalles.className = "detalles-listado-actividad";
 
+        // Materia
         const materia = document.createElement("span");
-        materia.className = "etiqueta-actividad";
-        materia.textContent = `Materia: ${actividad.materia || "Sin especificar"}`;
+        materia.className = "etiqueta-listado";
+        materia.textContent =
+            `Materia: ${actividad.materia || "Sin especificar"}`;
         detalles.appendChild(materia);
 
+        // Fecha
         const fecha = document.createElement("span");
+        fecha.className = "etiqueta-listado";
         fecha.textContent = `Entrega: ${actividad.fechaEntrega}`;
         detalles.appendChild(fecha);
 
+        // Responsable
         if (actividad.asignadoA) {
             const responsable = document.createElement("span");
-            responsable.textContent = `Responsable: ${actividad.asignadoA}`;
+            responsable.className = "etiqueta-listado";
+            responsable.textContent =
+                `Responsable: ${actividad.asignadoA}`;
             detalles.appendChild(responsable);
         }
 
+        // Estado
         const estado = document.createElement("span");
-        estado.className = "etiqueta-actividad";
+        estado.className = "etiqueta-listado";
 
         if (actividad.estado === "COMPLETADA") {
-            estado.classList.add("etiqueta-completada");
+            estado.classList.add("etiqueta-estado-completada");
         }
 
-        estado.textContent = `Estado: ${formatearValor(actividad.estado)}`;
+        estado.textContent =
+            `Estado: ${formatearValor(actividad.estado)}`;
+
         detalles.appendChild(estado);
 
+        // Prioridad
         const prioridad = document.createElement("span");
-        prioridad.className = "etiqueta-actividad";
+        prioridad.className = "etiqueta-listado";
 
         if (actividad.prioridad === "ALTA") {
-            prioridad.classList.add("etiqueta-alta");
+            prioridad.classList.add("etiqueta-prioridad-alta");
         }
 
-        prioridad.textContent = `Prioridad: ${formatearValor(actividad.prioridad)}`;
-        detalles.appendChild(prioridad);
+        prioridad.textContent =
+            `Prioridad: ${formatearValor(actividad.prioridad)}`;
 
+        detalles.appendChild(prioridad);
 
         tarjeta.appendChild(detalles);
 
-        // Botón para eliminar la tarea
+        // Contenedor de botones
+        const acciones = document.createElement("div");
+        acciones.className = "acciones-listado-actividad";
+
+        // Eliminar actividad
         const botonEliminar = document.createElement("button");
         botonEliminar.type = "button";
         botonEliminar.textContent = "Eliminar";
@@ -234,11 +254,13 @@ function renderizarActividades() {
             }
         });
 
-        tarjeta.appendChild(botonEliminar);
-        listaActividades.appendChild(tarjeta);
+        acciones.appendChild(botonEliminar);
+        tarjeta.appendChild(acciones);
 
+        listaActividades.appendChild(tarjeta);
     });
 }
+
 
 
 function formatearValor(valor) {
