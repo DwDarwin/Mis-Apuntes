@@ -49,7 +49,7 @@ function actualizarFiltroMaterias() {
     const nombresMaterias = [
         ...new Set(
             window.actividades
-                .map(actividad => actividad.materia.trim())
+                .map(actividad => (actividad.materia || "").trim())
                 .filter(materia => materia !== "")
         )
     ].sort((a, b) => a.localeCompare(b));
@@ -105,7 +105,7 @@ function renderizarListadoActividades() {
 
         const coincideMateria =
             !materiaSeleccionada ||
-            actividad.materia.trim() === materiaSeleccionada;
+            (actividad.materia || "").trim() === materiaSeleccionada;
 
         return (
             coincideNombre &&
@@ -187,7 +187,7 @@ function crearTarjetaListado(actividad) {
 
     const etiquetaEstado = agregarEtiqueta(
         detalles,
-        `Estado: ${formatearValor(actividad.estado)}`
+        `Estado: ${window.formatearValor(actividad.estado)}`
     );
 
     if (actividad.estado === "COMPLETADA") {
@@ -196,7 +196,7 @@ function crearTarjetaListado(actividad) {
 
     const etiquetaPrioridad = agregarEtiqueta(
         detalles,
-        `Prioridad: ${formatearValor(actividad.prioridad)}`
+        `Prioridad: ${window.formatearValor(actividad.prioridad)}`
     );
 
     if (actividad.prioridad === "ALTA") {
@@ -256,17 +256,6 @@ function agregarEtiqueta(contenedor, texto) {
     contenedor.appendChild(etiqueta);
 
     return etiqueta;
-}
-
-/*agregada para pruebas*/
-function formatearValor(valor) {
-    if (!valor) {
-        return "Sin especificar";
-    }
-
-    const texto = valor.toString().toLowerCase();
-
-    return texto.charAt(0).toUpperCase() + texto.slice(1);
 }
 
 
