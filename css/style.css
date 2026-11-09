@@ -531,15 +531,7 @@ button {
     color: var(--texto);
 }
 
-.boton-eliminar {
-    color: #ef4444;
-    border: 1px solid #ef4444;
-}
 
-.boton-eliminar:hover {
-    background: #ef4444;
-    color: #ffffff;
-}
 
 /* Adaptación a pantallas pequeñas */
 @media (max-width: 600px) {

@@ -213,7 +213,7 @@ function renderizarActividades() {
         const botonEliminar = document.createElement("button");
         botonEliminar.type = "button";
         botonEliminar.textContent = "Eliminar";
-        botonEliminar.className = "boton-eliminar";
+        botonEliminar.className = "boton-eliminar btn-eliminar";
 
         botonEliminar.addEventListener("click", function () {
             const eliminado = taskManager.deleteTask(actividad.id);

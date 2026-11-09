@@ -39,7 +39,7 @@
 /* Boton naranja principal */
 .btn-principal {
     background-color: var(--acento-principal);
-    color: #052E22;
+    color: var(--menu-fondo);
     border: 1px solid var(--acento-principal);
     border-radius: 8px;
     cursor: pointer;
@@ -50,5 +50,29 @@
 .btn-principal:hover {
     background-color: var(--acento-glow);
     border-color: var(--acento-glow);
-    color: #052E22;
+    color: var(--texto);
+}
+
+
+/* Boton secundario (cancelar) */
+
+.btn-secundario {     
+    background-color: transparent;
+    color: var(--texto-secundario);
+    border: 1px solid var(--borde);
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+    
+}
+
+.btn-secundario:hover {
+    color: var(--acento-glow);
+    background-color: var(--menu-activo);
+    border-color: var(--acento-principal);
 }
