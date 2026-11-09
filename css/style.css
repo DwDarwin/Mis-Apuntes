@@ -41,7 +41,7 @@ button {
     padding: 28px 18px;
     overflow-y: auto;
 
-    background-color: var(--azul-oscuro);
+    background-color: var(--menu-fondo);
     border-right: 1px solid var(--borde);
 }
 
@@ -57,7 +57,7 @@ button {
 }
 
 .marca i {
-    color: var(--verde-neon);
+    color: var(--acento-principal);
     font-size: 27px;
 }
 
@@ -69,7 +69,7 @@ button {
     gap: 12px;
     margin: -24px 8px 32px;
     padding: 14px 10px;
-    background-color: var(--azul-secundario);
+    background-color: var(--menu-activo);
     border: 1px solid var(--borde);
     border-radius: 12px;
 }
@@ -83,7 +83,7 @@ button {
     height: 42px;
     border-radius: 50%;
     background-color: #064E3B;
-    color: var(--verde-neon-glow);
+    color: var(--acento-glow);
     font-size: 23px;
 }
 
@@ -109,7 +109,7 @@ button {
 }
 
 .rol-usuario {
-    color: var(--verde-neon-glow);
+    color: var(--acento-glow);
 }
 
 
@@ -147,17 +147,17 @@ button {
 
 .enlace-menu:hover {
     color: var(--texto);
-    background-color: var(--azul-secundario);
+    background-color: var(--menu-activo);
 }
 
 .enlace-menu.activo {
-    color: var(--verde-neon-glow);
-    background-color: var(--azul-secundario);
+    color: var(--acento-glow);
+    background-color: var(--menu-activo);
     border-color: var(--borde);
 }
 
 .enlace-menu.activo i {
-    color: var(--verde-neon);
+    color: var(--acento-principal);
 }
 
 .menu-inferior {
@@ -198,9 +198,9 @@ button {
 }
 
 .enlace-cerrar-sesion:hover {
-    color: var(--verde-neon-glow);
-    background-color: var(--azul-secundario);
-    border-color: var(--verde-neon);
+    color: var(--acento-glow);
+    background-color: var(--menu-activo);
+    border-color: var(--acento-principal);
 }
 
 .contenido-principal {
@@ -220,7 +220,7 @@ button {
 
 .texto-superior {
     margin: 0 0 7px;
-    color: var(--verde-neon);
+    color: var(--acento-principal);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1.5px;
@@ -246,29 +246,14 @@ button {
     cursor: pointer;
 }
 
-.boton-nueva-actividad {
+.nueva-actividad {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 9px;
-    padding: 12px 18px;
-    border: 1px solid var(--verde-neon);
-    border-radius: 9px;
-    background-color: var(--verde-neon);
-    color: #052E22;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
-}
-
-.boton-nueva-actividad:hover {
-    background-color: var(--verde-neon-glow);
-    border-color: var(--verde-neon-glow);
-    box-shadow: 0 0 18px #10B98130;
-    transform: translateY(-1px);
+    padding: 12px 18px;    
+    font-size: 14px;   
+    
 }
 
 
@@ -308,7 +293,7 @@ button {
 }
 
 .tarjeta-resumen:hover {
-    border-color: var(--verde-neon);
+    border-color: var(--acento-principal);
     transform: translateY(-2px);
 }
 
@@ -325,17 +310,17 @@ button {
 
 .icono-azul {
     background-color: #0F766E30;
-    color: var(--verde-neon-glow);
+    color: var(--acento-glow);
 }
 
 .icono-verde {
     background-color: #10B98120;
-    color: var(--verde-neon);
+    color: var(--acento-principal);
 }
 
 .icono-naranja {
     background-color: #F59E0B20;
-    color: var(--alerta-naranja);
+    color: var(--alerta-green);
 }
 
 .tarjeta-resumen p {
@@ -361,7 +346,7 @@ button {
     overflow: hidden;
     border: 1px solid var(--borde);
     border-radius: 13px;
-    background-color: var(--auth-bg);
+    background-color: var(--fondo);
 }
 
 .encabezado-panel {
@@ -387,13 +372,13 @@ button {
 }
 
 .enlace-ver-todas {
-    color: var(--verde-neon-glow);
+    color: var(--acento-glow);
     font-size: 13px;
     font-weight: 600;
 }
 
 .enlace-ver-todas:hover {
-    color: var(--verde-neon);
+    color: var(--acento-principal);
     text-decoration: underline;
 }
 
@@ -409,7 +394,7 @@ button {
 
 .estado-vacio>i {
     margin-bottom: 17px;
-    color: var(--verde-neon);
+    color: var(--acento-principal);
     font-size: 44px;
 }
 
@@ -508,13 +493,13 @@ button {
 }
 
 .etiqueta-prioridad-alta {
-    color: var(--alerta-naranja);
-    border-color: var(--alerta-naranja);
+    color: var(--alerta-green);
+    border-color: var(--alerta-green);
 }
 
 .etiqueta-estado-completada {
-    color: var(--verde-neon-glow);
-    border-color: var(--verde-neon);
+    color: var(--acento-glow);
+    border-color: var(--acento-principal);
 }
 
 /* Acciones siempre al final de la tarjeta */
@@ -537,12 +522,12 @@ button {
 }
 
 .boton-completar {
-    color: var(--verde-neon-glow);
-    border: 1px solid var(--verde-neon);
+    color: var(--acento-glow);
+    border: 1px solid var(--acento-principal);
 }
 
 .boton-completar:hover {
-    background: var(--verde-neon);
+    background: var(--acento-principal);
     color: var(--texto);
 }
 
