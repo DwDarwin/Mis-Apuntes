@@ -1,12 +1,3 @@
-:root {
-    --auth-green: var(--acento-principal, #E95420);
-    --auth-green-light: var(--acento-glow, #FA6933);
-    --auth-bg: var(--fondo, #1E1E1E);
-    --auth-panel: var(--menu-activo, #5E2750);
-    --auth-text: var(--texto, #F8FAFC);
-    --auth-muted: var(--texto-secundario, #AEA7AE);
-    --auth-border: var(--borde, #424242);
-}
 
 * {
     box-sizing: border-box;
@@ -15,8 +6,8 @@
 .auth-body {
     margin: 0;
     min-height: 100vh;
-    background: var(--auth-bg);
-    color: var(--auth-text);
+    background: var(--fondo);
+    color: var(--texto);
     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -43,7 +34,7 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 34px clamp(28px, 5vw, 76px) 22px;
-    background: var(--auth-bg);
+    background: var(--fondo);
     z-index: 1;
 }
 
@@ -52,7 +43,7 @@
     align-items: center;
     gap: 12px;
     width: fit-content;
-    color: var(--auth-text);
+    color: var(--texto);
     text-decoration: none;
     font-size: 1.18rem;
     font-weight: 600;
@@ -60,7 +51,7 @@
 }
 
 .auth-brand strong {
-    color: var(--auth-green-light);
+    color: var(--acento-glow);
 }
 
 .auth-brand-icon {
@@ -70,7 +61,7 @@
     height: 42px;
     border-radius: 13px;
     color: #2C001E;
-    background: var(--auth-green-light);
+    background: var(--acento-glow);
     box-shadow: 0 0 28px #10b98126;
     font-size: 1.25rem;
 }
@@ -86,7 +77,7 @@
 }
 
 .eyebrow {
-    color: var(--auth-green-light);
+    color: var(--acento-glow);
     font-size: .72rem;
     font-weight: 800;
     letter-spacing: .16em;
@@ -102,7 +93,7 @@
 .auth-heading p {
     margin: 0;
     max-width: 370px;
-    color: var(--auth-muted);
+    color: var(--texto-secundario);
     font-size: .96rem;
     line-height: 1.65;
 }
@@ -141,14 +132,14 @@
     min-height: 52px;
     padding: 0 14px;
     gap: 11px;
-    border: 1px solid var(--auth-border);
+    border: 1px solid var(--borde);
     border-radius: 12px;
     background: #111827;
     transition: border-color .2s, box-shadow .2s, background .2s;
 }
 
 .input-wrap:focus-within {
-    border-color: var(--auth-green);
+    border-color: var(--acento-principal);
     background: #111b28;
     box-shadow: 0 0 0 3px #10b98120;
 }
@@ -164,7 +155,7 @@
     padding: 14px 0;
     border: 0;
     outline: 0;
-    color: var(--auth-text);
+    color: var(--texto);
     background: transparent;
     font-size: .9rem;
 }
@@ -181,20 +172,20 @@
     height: 34px;
     padding: 0;
     border: 0;
-    color: var(--auth-muted);
+    color: var(--texto-secundario);
     background: transparent;
     cursor: pointer;
 }
 
 .password-toggle:hover {
-    color: var(--auth-green-light);
+    color: var(--acento-glow);
 }
 
 .field-error {
     display: block;
     min-height: 0;
     margin-top: 5px;
-    color: #FDA4AF;
+    color: var(--acento-principal);
     font-size: .76rem;
 }
 
@@ -203,12 +194,12 @@
 }
 
 .input-wrap.invalid {
-    border-color: #FB7185;
+    border-color: var(--acento-principal);
 }
 
 .form-message {
     margin: -5px 0 0;
-    color: var(--auth-muted);
+    color: var(--texto-secundario);
     font-size: .84rem;
     line-height: 1.5;
 }
@@ -218,11 +209,11 @@
 }
 
 .form-message.error {
-    color: #FDA4AF;
+    color: var(--acento-principal);
 }
 
 .form-message.success {
-    color: var(--auth-green-light);
+    color: var(--acento-glow);
 }
 
 .auth-submit {
@@ -233,31 +224,18 @@
     min-height: 52px;
     margin-top: 1px;
     padding: 0 20px;
-    border: 0;
-    border-radius: 12px;
-    color: #042F24;
-    background: var(--auth-green-light);
-    font-weight: 750;
-    cursor: pointer;
-    transition: transform .2s, box-shadow .2s, background .2s;
-}
-
-.auth-submit:hover {
-    transform: translateY(-1px);
-    background: #ef4444;
-    box-shadow: 0 10px 28px #10b98126;
 }
 
 .auth-submit:focus-visible,
 .auth-switch button:focus-visible,
 .password-toggle:focus-visible {
-    outline: 2px solid var(--auth-green-light);
+    outline: 2px solid var(--acento-glow);
     outline-offset: 3px;
 }
 
 .auth-switch {
     margin: 25px 0 0;
-    color: var(--auth-muted);
+    color: var(--texto-secundario);
     text-align: center;
     font-size: .88rem;
 }
@@ -265,7 +243,7 @@
 .auth-switch button {
     padding: 0 0 0 4px;
     border: 0;
-    color: var(--auth-green-light);
+    color: var(--acento-glow);
     background: transparent;
     font-weight: 700;
     cursor: pointer;
@@ -287,7 +265,7 @@
 }
 
 .auth-back a:hover {
-    color: var(--auth-green-light);
+    color: var(--acento-glow);
 }
 
 .auth-back i {
@@ -303,7 +281,7 @@
 
 .auth-footer span {
     padding: 0 5px;
-    color: var(--auth-green);
+    color: var(--acento-principal);
 }
 
 .auth-visual-panel {

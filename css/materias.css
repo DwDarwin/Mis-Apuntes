@@ -35,9 +35,9 @@
     justify-content: center;
     gap: 8px;
     padding: 11px 16px;
-    border: 1px solid var(--verde-neon);
+    border: 1px solid var(--acento-principal);
     border-radius: 9px;
-    background: var(--verde-neon);
+    background: var(--acento-principal);
     color: #052E22;
     font-weight: 700;
     cursor: pointer;
@@ -45,7 +45,7 @@
 }
 
 .boton-nueva-materia:hover {
-    background: var(--verde-neon-glow);
+    background: var(--acento-glow);
 }
 
 .resumen-materias {
@@ -60,7 +60,7 @@
 }
 
 .resumen-materias i {
-    color: var(--verde-neon);
+    color: var(--acento-principal);
     font-size: 24px;
 }
 
@@ -94,7 +94,7 @@
 
 .tarjeta-materia:hover {
     transform: translateY(-3px);
-    border-color: var(--verde-neon);
+    border-color: var(--acento-principal);
 }
 
 .materia-cabecera {
@@ -114,7 +114,7 @@
     flex-shrink: 0;
     border-radius: 11px;
     background: #10B98120;
-    color: var(--verde-neon-glow);
+    color: var(--acento-glow);
     font-size: 22px;
 }
 
@@ -132,8 +132,8 @@
 }
 
 .boton-eliminar-materia:hover {
-    border-color: var(--alerta-naranja);
-    color: var(--alerta-naranja);
+    border-color: var(--alerta-green);
+    color: var(--alerta-green);
 }
 
 .tarjeta-materia h3 {
@@ -169,7 +169,7 @@
 }
 
 .estado-vacio-materias i {
-    color: var(--verde-neon);
+    color: var(--acento-principal);
     font-size: 40px;
 }
 
@@ -213,7 +213,7 @@
 }
 
 .modal-materia .form-control:focus {
-    border-color: var(--verde-neon);
+    border-color: var(--acento-principal);
     box-shadow: 0 0 0 3px #10B98125;
 
 

@@ -1,14 +1,12 @@
 :root {
     
-    --verde-neon: var(--acento-principal, #E95420);
-    --verde-neon-glow: var(--acento-glow, #FA6933);
-
+    --acento-principal: #E95420;
+    --acento-glow: #FA6933;
    
-    --azul-oscuro: var(--menu-fondo, #2C001E);
-    --azul-secundario: var(--menu-activo, #5E2750);
+    --menu-fondo: #2C001E;
+    --menu-activo: #5E2750;
     --fondo: #1E1E1E;
     --superficie-card: #2D2D2D;
-
 
     --texto: #FFFFFF;
     --texto-secundario: #AEA7AE;
@@ -16,50 +14,41 @@
 
     
     --blanco: #FFFFFF;
-    --alerta-naranja: var(--alerta-green, #38C172);
+    --alerta-green: #38C172;
 }
-/*
-:root {
-    
-    --verde-neon: #10B981;
-    --verde-neon-glow: #34D399;
-
-   
-    --azul-oscuro: #0F172A;
-    --azul-secundario: #1E293B;
-    --fondo: #0B0F19;
-    --superficie-card: #1E293B;
 
 
-    --texto: #F8FAFC;
-    --texto-secundario: #94A3B8;
-    --borde: #334155;
 
-    
-    --blanco: #FFFFFF;
-    --alerta-naranja: #F59E0B;
+/* Boton principal de eliminar */
+.boton-eliminar {
+    padding: 8px 14px;
+    margin-top: 12px;
+    border: 1px solid #ef4444;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #ef4444;
+    cursor: pointer;
 }
-    */
-/*
-:root {
-    
-    --acento-principal: #FF6B4A;
-    --acento-glow: #FF8E72;
 
-   
-    --menu-fondo: #2B2D42;
-    --menu-activo: #4A4E69;
-    --fondo: #FDFBF7;
-    --superficie-card: #FFFFFF;
-
-
-    --texto: #2B2D42;
-    --texto-secundario: #6C757D;
-    --borde: #334155;
-
-    
-    --blanco: #FFFFFF;
-    --alerta-coral: #F59E0B;
+.boton-eliminar:hover {
+    background-color: #ef4444;
+    color: #ffffff;
 }
-*/
 
+
+/* Boton naranja principal */
+.btn-principal {
+    background-color: var(--acento-principal);
+    color: #052E22;
+    border: 1px solid var(--acento-principal);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    
+}
+
+.btn-principal:hover {
+    background-color: var(--acento-glow);
+    border-color: var(--acento-glow);
+    color: #052E22;
+}
