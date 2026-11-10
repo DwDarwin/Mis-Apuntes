@@ -1,7 +1,7 @@
 
 .seccion-listado-actividades {
     display: none;
-    padding: 28px;
+    padding: 0;
     color: var(--texto);
 }
 
@@ -10,7 +10,7 @@
 }
 
 .encabezado-listado h2 {
-    margin-bottom: 8px;
+    margin-bottom: 0;
     font-size: 1.7rem;
     font-weight: 700;
 }
@@ -31,6 +31,7 @@
     background: var(--superficie-card);
     border: 1px solid var(--borde);
     border-radius: 14px;
+    
 }
 
 .busqueda-actividades {
@@ -71,6 +72,7 @@
 .filtros-actividades input:focus,
 .filtros-actividades select:focus {
     border-color: var(--acento-principal);
+    
 }
 
 .boton-limpiar-filtros {
@@ -104,11 +106,8 @@
 }
 
 .tarjeta-listado-actividad {
-    padding: 20px;
-    background: var(--superficie-card);
-    border: 1px solid var(--borde);
-    border-radius: 14px;
-    overflow-wrap: anywhere;
+    padding: 20px;   
+    
 }
 
 .tarjeta-listado-actividad h3 {
@@ -122,19 +121,10 @@
     font-size: 0.92rem;
 }
 
-.detalles-listado-actividad {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 14px 0;
-}
+
 
 .etiqueta-listado {
-    padding: 5px 9px;
-    color: var(--texto-secundario);
-    background: var(--fondo);
-    border: 1px solid var(--borde);
-    border-radius: 20px;
+    padding: 5px 9px;    
     font-size: 0.78rem;
 }
 
@@ -148,37 +138,6 @@
     border-color: var(--acento-principal);
 }
 
-.acciones-listado-actividad {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
-}
-
-.boton-completar {
-    padding: 8px 14px;
-    color: var(--acento-glow);
-    margin-top: 12px;
-    background: transparent;
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.boton-completar:hover {
-    background-color: var(--acento-principal);
-    color: var(--texto);
-}
-
-.acciones-listado-actividad .boton-completar {
-    
-    border-color: var(--acento-principal);
-}
-
-.acciones-listado-actividad {
-    color: var(--alerta-green);
-    border-color: var(--alerta-green);
-}
 
 .estado-vacio-listado {
     grid-column: 1 / -1;
