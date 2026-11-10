@@ -39,7 +39,7 @@
 /* Boton naranja principal */
 .btn-principal {
     background-color: var(--acento-principal);
-    color: #052E22;
+    color: var(--menu-fondo);
     border: 1px solid var(--acento-principal);
     border-radius: 8px;
     cursor: pointer;
@@ -50,5 +50,133 @@
 .btn-principal:hover {
     background-color: var(--acento-glow);
     border-color: var(--acento-glow);
-    color: #052E22;
+    color: var(--texto);
 }
+
+
+/* Boton secundario (cancelar) */
+
+.btn-secundario {     
+    background-color: transparent;
+    color: var(--texto-secundario);
+    border: 1px solid var(--borde);
+    border-radius: 9px;
+
+    font-size: 14px;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+    
+}
+
+.btn-secundario:hover {
+    color: var(--acento-glow);
+    background-color: var(--menu-activo);
+    border-color: var(--acento-principal);
+}
+
+
+
+
+/* ========================================
+   COMPONENTE GENERAL: TARJETAS
+======================================== */
+
+.tarjeta-listado-actividad {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 300px;
+    padding: 20px;
+    background: var(--superficie-card);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+    overflow-wrap: anywhere;
+}
+
+.tarjeta-listado-actividad h3 {
+    margin-bottom: 10px;
+    color: var(--texto);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.tarjeta-listado-actividad p {
+    color: var(--texto-secundario);
+    font-size: 0.92rem;
+}
+
+/* ========================================
+   COMPONENTE GENERAL: ETIQUETAS
+======================================== */
+
+.detalles-listado-actividad {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0;
+}
+
+.etiqueta-listado {
+    border: 1px solid var(--borde);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    background: var(--fondo);
+    color: var(--texto-secundario); 
+}
+
+/* ========================================
+   COMPONENTE GENERAL: FILA DE ACCIONES
+======================================== */
+
+.fila-acciones-actividad {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 16px;
+}
+
+/* Selector de estado */
+.campo-estado-actividad {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 140px;
+    margin: 0;
+}
+
+.campo-estado-actividad .form-label {
+    margin-bottom: 5px;
+    color: var(--texto);
+    font-size: 13px;
+}
+
+.selector-estado-actividad {
+    width: 140px;
+    height: 45px; 
+    padding: 6px 28px 6px 10px;
+    color: var(--texto);
+    background-color: var(--fondo);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Contenedor de acciones */
+
+.acciones-listado-actividad {
+    display: flex;
+    align-items: flex-end;
+    margin: 0;
+    padding: 0;
+    border-color: var(--acento-principal);
+    color: var(--alerta-green);
+    border-color: var(--alerta-green);
+}
+
+

@@ -414,7 +414,7 @@ button {
 }
 
 
-/* Distribución compartida de las actividades */
+
 .lista-todas-actividades,
 #lista-actividades {
      display: grid;
@@ -424,71 +424,38 @@ button {
     gap: 16px;
 }
 
-/* Diseño compartido de las tarjetas */
-.tarjeta-listado-actividad {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    min-width: 0;
-    min-height: 300px;
-    padding: 20px;
 
-    background: var(--superficie-card);
-    border: 1px solid var(--borde);
-    border-radius: 14px;
-
-    overflow-wrap: anywhere;
-}
-
-/* Título: máximo dos líneas */
 .tarjeta-listado-actividad h3 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
-
     min-height: 2.5em;
     margin: 0 0 10px;
-
-    font-size: 1.1rem;
-    font-weight: 700;
+    font-size: 1.1rem;    
     line-height: 1.25;
 }
 
-/* Descripción: máximo tres líneas */
+
 .tarjeta-listado-actividad p {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
-
     min-height: 4.2em;
-    margin: 0;
-
-    color: var(--texto-secundario);
-    font-size: 0.92rem;
+    margin: 0;    
     line-height: 1.4;
 }
 
-/* Etiquetas de información */
-.detalles-listado-actividad {
-    display: flex;
-    flex-wrap: wrap;
+
+.detalles-listado-actividad {  
     align-content: flex-start;
-    gap: 8px;
-    margin: 14px 0;
+   
 }
 
 .etiqueta-listado {
     max-width: 100%;
-    padding: 5px 9px;
-
-    color: var(--texto-secundario);
-    background: var(--fondo);
-    border: 1px solid var(--borde);
-    border-radius: 20px;
-
-    font-size: 0.78rem;
+    padding: 5px 9px;          
     overflow-wrap: anywhere;
 }
 
@@ -502,44 +469,15 @@ button {
     border-color: var(--acento-principal);
 }
 
-/* Acciones siempre al final de la tarjeta */
-.acciones-listado-actividad {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: auto;
-    padding-top: 12px;
-}
 
-/* Botones */
-.boton-completar,
 .boton-eliminar {
     padding: 8px 14px;
-    margin-top: 0;
-    border-radius: 8px;
-    background: transparent;
-    cursor: pointer;
+    margin: 0;   
+    
 }
 
-.boton-completar {
-    color: var(--acento-glow);
-    border: 1px solid var(--acento-principal);
-}
 
-.boton-completar:hover {
-    background: var(--acento-principal);
-    color: var(--texto);
-}
 
-.boton-eliminar {
-    color: #ef4444;
-    border: 1px solid #ef4444;
-}
-
-.boton-eliminar:hover {
-    background: #ef4444;
-    color: #ffffff;
-}
 
 /* Adaptación a pantallas pequeñas */
 @media (max-width: 600px) {

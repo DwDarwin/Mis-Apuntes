@@ -5,9 +5,10 @@ const modalElemento = document.getElementById("modalActividad");
 
 const modalActividad = bootstrap.Modal.getOrCreateInstance(modalElemento);
 
-/*deshabilitado temporal*/
 
 const actividades = [];
+
+
 
 class TaskManager {
     constructor(actividades) {
@@ -23,7 +24,7 @@ class TaskManager {
         actividad.id = this.contadorId;
         this.actividades.push(actividad);
     }
-
+   
     getTasks() {
         return this.actividades;
     }
@@ -37,7 +38,8 @@ class TaskManager {
             return false;
         }
 
-        this.actividades.splice(indice, 1);
+        this.actividades.splice(indice, 1);      
+
         return true;
     }
 }
@@ -68,14 +70,12 @@ function validateTaskForm() {
     const nombre = document.getElementById("nombre").value.trim();
     const descripcion = document.getElementById("descripcion").value.trim();
     const asignadoA = document.getElementById("asignadoA").value.trim();
-    const estado = document.getElementById("estado").value;
     const fechaEntrega = campoFecha.value.trim();
 
     return (
         nombre.length > 8 &&
         descripcion.length > 15 &&
         asignadoA.length > 8 &&
-        estado.trim() !== "" &&
         fechaEntrega !== ""
     );
 }
@@ -100,7 +100,7 @@ formulario.addEventListener("submit", function (evento) {
         materia: document.getElementById("materia").value.trim(),
         asignadoA: document.getElementById("asignadoA").value.trim(),
         fechaEntrega: campoFecha.value,
-        estado: document.getElementById("estado").value,
+        estado: "PENDIENTE",
         prioridad: document.getElementById("prioridad").value
     };
 
@@ -177,18 +177,45 @@ function renderizarActividades() {
             detalles.appendChild(responsable);
         }
 
-        // Estado
-        const estado = document.createElement("span");
-        estado.className = "etiqueta-listado";
 
-        if (actividad.estado === "COMPLETADA") {
-            estado.classList.add("etiqueta-estado-completada");
-        }
+        
+        const contenedorEstado = document.createElement("div");
+        contenedorEstado.className = "campo-estado-actividad";
 
-        estado.textContent =
-            `Estado: ${formatearValor(actividad.estado)}`;
+        const etiquetaEstado = document.createElement("label");
+        etiquetaEstado.textContent = "Estado:";
+        etiquetaEstado.className = "form-label";
 
-        detalles.appendChild(estado);
+        const selectorEstado = document.createElement("select");
+        selectorEstado.className = "form-select selector-estado-actividad";
+
+        const estados = [
+            { valor: "PENDIENTE", texto: "Pendiente" },
+            { valor: "EN_PROGRESO", texto: "En progreso" },
+            { valor: "COMPLETADA", texto: "Completada" }
+        ];
+
+        estados.forEach(function (estado) {
+            const opcion = document.createElement("option");
+            opcion.value = estado.valor;
+            opcion.textContent = estado.texto;
+            selectorEstado.appendChild(opcion);
+        });
+
+        selectorEstado.value = actividad.estado;
+
+        selectorEstado.addEventListener("change", function () {
+            actividad.estado = selectorEstado.value;           
+            renderizarActividades();
+            actualizarResumen();
+
+            window.dispatchEvent(
+                new CustomEvent("actividadesActualizadas")
+            );
+        });
+
+        contenedorEstado.appendChild(etiquetaEstado);
+        contenedorEstado.appendChild(selectorEstado);
 
         // Prioridad
         const prioridad = document.createElement("span");
@@ -203,6 +230,7 @@ function renderizarActividades() {
 
         detalles.appendChild(prioridad);
 
+        // Agregar los detalles a la tarjeta
         tarjeta.appendChild(detalles);
 
         // Contenedor de botones
@@ -213,7 +241,7 @@ function renderizarActividades() {
         const botonEliminar = document.createElement("button");
         botonEliminar.type = "button";
         botonEliminar.textContent = "Eliminar";
-        botonEliminar.className = "boton-eliminar";
+        botonEliminar.className = "boton-eliminar btn-eliminar";
 
         botonEliminar.addEventListener("click", function () {
             const eliminado = taskManager.deleteTask(actividad.id);
@@ -229,8 +257,17 @@ function renderizarActividades() {
         });
 
         acciones.appendChild(botonEliminar);
-        tarjeta.appendChild(acciones);
 
+        // Fila inferior: estado y botón eliminar
+        const filaAcciones = document.createElement("div");
+        filaAcciones.className = "fila-acciones-actividad";
+
+        filaAcciones.appendChild(contenedorEstado);
+        filaAcciones.appendChild(acciones);
+
+        tarjeta.appendChild(filaAcciones);
+
+        // Agregar tarjeta al listado
         listaActividades.appendChild(tarjeta);
     });
 }

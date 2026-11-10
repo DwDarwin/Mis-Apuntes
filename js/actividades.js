@@ -151,20 +151,24 @@ function renderizarListadoActividades() {
 }
 
 
+
 function crearTarjetaListado(actividad) {
     const tarjeta = document.createElement("article");
     tarjeta.className = "tarjeta-listado-actividad";
 
+    // Título
     const titulo = document.createElement("h3");
     titulo.textContent = actividad.nombre;
     tarjeta.appendChild(titulo);
 
+    // Descripción
     if (actividad.descripcion) {
         const descripcion = document.createElement("p");
         descripcion.textContent = actividad.descripcion;
         tarjeta.appendChild(descripcion);
     }
 
+    // Detalles de la actividad
     const detalles = document.createElement("div");
     detalles.className = "detalles-listado-actividad";
 
@@ -185,15 +189,7 @@ function crearTarjetaListado(actividad) {
         );
     }
 
-    const etiquetaEstado = agregarEtiqueta(
-        detalles,
-        `Estado: ${window.formatearValor(actividad.estado)}`
-    );
-
-    if (actividad.estado === "COMPLETADA") {
-        etiquetaEstado.classList.add("etiqueta-estado-completada");
-    }
-
+    // Prioridad
     const etiquetaPrioridad = agregarEtiqueta(
         detalles,
         `Prioridad: ${window.formatearValor(actividad.prioridad)}`
@@ -205,22 +201,44 @@ function crearTarjetaListado(actividad) {
 
     tarjeta.appendChild(detalles);
 
+    // Selector de estado
+    const contenedorEstado = document.createElement("div");
+    contenedorEstado.className = "campo-estado-actividad";
+
+    const etiquetaEstado = document.createElement("label");
+    etiquetaEstado.textContent = "Estado:";
+    etiquetaEstado.className = "form-label";
+
+    const selectorEstado = document.createElement("select");
+    selectorEstado.className = "form-select selector-estado-actividad";
+
+    const estados = [
+        { valor: "PENDIENTE", texto: "Pendiente" },
+        { valor: "EN_PROGRESO", texto: "En progreso" },
+        { valor: "COMPLETADA", texto: "Completada" }
+    ];
+
+    estados.forEach(function (estado) {
+        const opcion = document.createElement("option");
+        opcion.value = estado.valor;
+        opcion.textContent = estado.texto;
+        selectorEstado.appendChild(opcion);
+    });
+
+    selectorEstado.value = actividad.estado;
+
+    selectorEstado.addEventListener("change", function () {
+        actividad.estado = selectorEstado.value;
+        window.guardarActividades();
+        actualizarVistasActividad();
+    });
+
+    contenedorEstado.appendChild(etiquetaEstado);
+    contenedorEstado.appendChild(selectorEstado);
+
+    // Contenedor del botón eliminar
     const acciones = document.createElement("div");
     acciones.className = "acciones-listado-actividad";
-
-    if (actividad.estado !== "COMPLETADA") {
-        const botonCompletar = document.createElement("button");
-        botonCompletar.type = "button";
-        botonCompletar.className = "boton-completar";
-        botonCompletar.textContent = "Marcar completada";
-
-        botonCompletar.addEventListener("click", function () {
-            actividad.estado = "COMPLETADA";
-            actualizarVistasActividad();
-        });
-
-        acciones.appendChild(botonCompletar);
-    }
 
     const botonEliminar = document.createElement("button");
     botonEliminar.type = "button";
@@ -234,7 +252,6 @@ function crearTarjetaListado(actividad) {
 
         if (!confirmar) return;
 
-
         const eliminado = window.taskManager.deleteTask(actividad.id);
 
         if (eliminado) {
@@ -243,10 +260,19 @@ function crearTarjetaListado(actividad) {
     });
 
     acciones.appendChild(botonEliminar);
-    tarjeta.appendChild(acciones);
+
+    // Fila inferior: estado y botón eliminar
+    const filaAcciones = document.createElement("div");
+    filaAcciones.className = "fila-acciones-actividad";
+
+    filaAcciones.appendChild(contenedorEstado);
+    filaAcciones.appendChild(acciones);
+
+    tarjeta.appendChild(filaAcciones);
 
     return tarjeta;
 }
+
 
 
 function agregarEtiqueta(contenedor, texto) {

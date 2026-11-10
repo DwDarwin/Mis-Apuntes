@@ -64,7 +64,7 @@
                 </a>
 
             </nav>
-            
+
             <div class="menu-inferior">
                 <p>Organizo mi tiempo, alcanzo mis metas.</p>
 
@@ -73,7 +73,7 @@
                     <span>Cerrar sesión</span>
                 </a>
             </div>
-        
+
 
         </aside>
 
@@ -91,8 +91,8 @@
                     <h1 id="titulo-seccion">Actividades de hoy</h1>
                 </div>
 
-                <button id="boton-nueva-actividad" class="btn-principal nueva-actividad" type="button" data-bs-toggle="modal"
-                    data-bs-target="#modalActividad">
+                <button id="boton-nueva-actividad" class="btn-principal nueva-actividad" type="button"
+                    data-bs-toggle="modal" data-bs-target="#modalActividad">
                     <i class="bi bi-plus-lg"></i>
                     <span>Nueva actividad</span>
                 </button>
@@ -307,34 +307,21 @@
                                     <input type="date" class="form-control" id="fechaEntrega" required>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="estado" class="form-label">
-                                            Estado
-                                        </label>
-                                        <select class="form-select" id="estado">
-                                            <option value="PENDIENTE">Pendiente</option>
-                                            <option value="EN_PROGRESO">En progreso</option>
-                                            <option value="COMPLETADA">Completada</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="col-md-6 mb-3">
-                                        <label for="prioridad" class="form-label">
-                                            Prioridad
-                                        </label>
-                                        <select class="form-select" id="prioridad">
-                                            <option value="BAJA">Baja</option>
-                                            <option value="MEDIA" selected>Media</option>
-                                            <option value="ALTA">Alta</option>
-                                        </select>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="prioridad" class="form-label">
+                                        Prioridad
+                                    </label>
+                                    <select class="form-select" id="prioridad">
+                                        <option value="BAJA">Baja</option>
+                                        <option value="MEDIA" selected>Media</option>
+                                        <option value="ALTA">Alta</option>
+                                    </select>
                                 </div>
 
                             </div>
 
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-cancelar" data-bs-dismiss="modal">
+                                <button type="button" class="btn-secundario btn-cancelar" data-bs-dismiss="modal">
                                     Cancelar
                                 </button>
 
@@ -438,7 +425,7 @@
                                     Cancelar
                                 </button>
 
-                                <button type="submit" class="btn btn-guardar">
+                                <button type="submit" class="btn-principal btn-guardar">
                                     Guardar materia
                                 </button>
                             </div>
@@ -545,7 +532,7 @@
     <script type="module" src="js/nueva-actividad.js"></script>
     <script type="module" src="js/progreso.js"></script>
     <script src="js/navegacion.js"></script>
-    
+
 </body>
 
 </html>
