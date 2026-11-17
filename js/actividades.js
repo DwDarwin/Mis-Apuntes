@@ -155,20 +155,21 @@ function renderizarListadoActividades() {
 function crearTarjetaListado(actividad) {
     const tarjeta = document.createElement("article");
     tarjeta.className = "tarjeta-listado-actividad";
+    tarjeta.dataset.actividadId = actividad.id;
 
-    // Título
+
     const titulo = document.createElement("h3");
     titulo.textContent = actividad.nombre;
     tarjeta.appendChild(titulo);
 
-    // Descripción
+
     if (actividad.descripcion) {
         const descripcion = document.createElement("p");
         descripcion.textContent = actividad.descripcion;
         tarjeta.appendChild(descripcion);
     }
 
-    // Detalles de la actividad
+
     const detalles = document.createElement("div");
     detalles.className = "detalles-listado-actividad";
 
@@ -189,7 +190,7 @@ function crearTarjetaListado(actividad) {
         );
     }
 
-    // Prioridad
+
     const etiquetaPrioridad = agregarEtiqueta(
         detalles,
         `Prioridad: ${window.formatearValor(actividad.prioridad)}`
@@ -201,7 +202,7 @@ function crearTarjetaListado(actividad) {
 
     tarjeta.appendChild(detalles);
 
-    // Selector de estado
+
     const contenedorEstado = document.createElement("div");
     contenedorEstado.className = "campo-estado-actividad";
 
@@ -227,16 +228,10 @@ function crearTarjetaListado(actividad) {
 
     selectorEstado.value = actividad.estado;
 
-    selectorEstado.addEventListener("change", function () {
-        actividad.estado = selectorEstado.value;
-        window.guardarActividades();
-        actualizarVistasActividad();
-    });
-
     contenedorEstado.appendChild(etiquetaEstado);
     contenedorEstado.appendChild(selectorEstado);
 
-    // Contenedor del botón eliminar
+
     const acciones = document.createElement("div");
     acciones.className = "acciones-listado-actividad";
 
@@ -255,13 +250,13 @@ function crearTarjetaListado(actividad) {
         const eliminado = window.taskManager.deleteTask(actividad.id);
 
         if (eliminado) {
-            actualizarVistasActividad();
+            window.actualizarVistasActividad();
         }
     });
 
     acciones.appendChild(botonEliminar);
 
-    // Fila inferior: estado y botón eliminar
+
     const filaAcciones = document.createElement("div");
     filaAcciones.className = "fila-acciones-actividad";
 
@@ -285,14 +280,30 @@ function agregarEtiqueta(contenedor, texto) {
 }
 
 
-function actualizarVistasActividad() {
-    renderizarListadoActividades();
+// Delegación de eventos para cambiar el estado
+listadoActividades.addEventListener("change", function (event) {
 
-    // Actualizar  el panel de actividades de hoy
-    // sus contadores usando las funciones existentes.
-    renderizarActividades();
-    actualizarResumen();
 
-    window.dispatchEvent(new CustomEvent("actividadesActualizadas"));
-}
+    if (event.target.classList.contains("selector-estado-actividad")) {
 
+
+        const tarjeta = event.target.closest(".tarjeta-listado-actividad");
+        //console.log("Elemento de la tarea:", tarjeta);
+        //console.log("ID de la tarea:", tarjeta.dataset.actividadId);
+
+        if (!tarjeta) return;
+
+
+        const idActividad = Number(tarjeta.dataset.actividadId);
+
+        // Buscar la actividad mediante TaskManager
+        const actividad = window.taskManager.findActivityById(idActividad);
+
+        if (!actividad) return;
+
+
+        actividad.estado = event.target.value;
+
+        window.actualizarVistasActividad();
+    }
+});

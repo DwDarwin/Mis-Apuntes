@@ -6,28 +6,89 @@ const modalElemento = document.getElementById("modalActividad");
 const modalActividad = bootstrap.Modal.getOrCreateInstance(modalElemento);
 
 
-const actividades = [];
+//const actividades = [];
+
+// Clave para almacenar las actividades en localStorage
+const CLAVE_ACTIVIDADES = "actividades";
+
+
+function cargarActividades() {
+    const datosGuardados = localStorage.getItem(CLAVE_ACTIVIDADES);
+
+    if (!datosGuardados) {
+        return [];
+    }
+
+    try {
+        const actividadesGuardadas = JSON.parse(datosGuardados);
+
+        return Array.isArray(actividadesGuardadas)
+            ? actividadesGuardadas
+            : [];
+
+    } catch (error) {
+        console.error("Error al recuperar las actividades:", error);
+        return [];
+    }
+}
+
+const actividades = cargarActividades();
+
+function guardarActividades() {
+    localStorage.setItem(
+        CLAVE_ACTIVIDADES,
+        JSON.stringify(actividades)
+    );
+}
+
+window.guardarActividades = guardarActividades;
+
 
 
 
 class TaskManager {
+
     constructor(actividades) {
         this.actividades = actividades;
+
         this.contadorId = actividades.reduce(
             (mayorId, actividad) => Math.max(mayorId, actividad.id || 0),
             0
         );
     }
 
+
     addTask(actividad) {
         this.contadorId++;
+
         actividad.id = this.contadorId;
+
         this.actividades.push(actividad);
+
+        guardarActividades();
     }
-   
+
+
     getTasks() {
         return this.actividades;
     }
+
+
+    //window.taskManager.findActivityById(1); (para escribir en consola y probar la funcion)
+    findActivityById(id) {
+
+        let actividadEncontrada;
+
+        for (const actividad of this.actividades) {
+            if (actividad.id === Number(id)) {
+                actividadEncontrada = actividad;
+                break;
+            }
+        }
+
+        return actividadEncontrada;
+    }
+
 
     deleteTask(id) {
         const indice = this.actividades.findIndex(
@@ -38,7 +99,9 @@ class TaskManager {
             return false;
         }
 
-        this.actividades.splice(indice, 1);      
+        this.actividades.splice(indice, 1);
+
+        guardarActividades();
 
         return true;
     }
@@ -138,37 +201,38 @@ function renderizarActividades() {
     actividades.forEach(function (actividad) {
         const tarjeta = document.createElement("article");
         tarjeta.className = "tarjeta-listado-actividad";
+        tarjeta.dataset.actividadId = actividad.id;
 
-        // Título
+
         const titulo = document.createElement("h3");
         titulo.textContent = actividad.nombre;
         tarjeta.appendChild(titulo);
 
-        // Descripción
+
         if (actividad.descripcion) {
             const descripcion = document.createElement("p");
             descripcion.textContent = actividad.descripcion;
             tarjeta.appendChild(descripcion);
         }
 
-        // Contenedor de detalles
+
         const detalles = document.createElement("div");
         detalles.className = "detalles-listado-actividad";
 
-        // Materia
+
         const materia = document.createElement("span");
         materia.className = "etiqueta-listado";
         materia.textContent =
             `Materia: ${actividad.materia || "Sin especificar"}`;
         detalles.appendChild(materia);
 
-        // Fecha
+
         const fecha = document.createElement("span");
         fecha.className = "etiqueta-listado";
         fecha.textContent = `Entrega: ${actividad.fechaEntrega}`;
         detalles.appendChild(fecha);
 
-        // Responsable
+
         if (actividad.asignadoA) {
             const responsable = document.createElement("span");
             responsable.className = "etiqueta-listado";
@@ -178,7 +242,7 @@ function renderizarActividades() {
         }
 
 
-        
+
         const contenedorEstado = document.createElement("div");
         contenedorEstado.className = "campo-estado-actividad";
 
@@ -203,21 +267,12 @@ function renderizarActividades() {
         });
 
         selectorEstado.value = actividad.estado;
-
-        selectorEstado.addEventListener("change", function () {
-            actividad.estado = selectorEstado.value;           
-            renderizarActividades();
-            actualizarResumen();
-
-            window.dispatchEvent(
-                new CustomEvent("actividadesActualizadas")
-            );
-        });
+        
 
         contenedorEstado.appendChild(etiquetaEstado);
         contenedorEstado.appendChild(selectorEstado);
 
-        // Prioridad
+       
         const prioridad = document.createElement("span");
         prioridad.className = "etiqueta-listado";
 
@@ -230,14 +285,14 @@ function renderizarActividades() {
 
         detalles.appendChild(prioridad);
 
-        // Agregar los detalles a la tarjeta
+       
         tarjeta.appendChild(detalles);
 
-        // Contenedor de botones
+       
         const acciones = document.createElement("div");
         acciones.className = "acciones-listado-actividad";
 
-        // Eliminar actividad
+       
         const botonEliminar = document.createElement("button");
         botonEliminar.type = "button";
         botonEliminar.textContent = "Eliminar";
@@ -309,13 +364,55 @@ function actualizarResumen() {
     }
 }
 
-// Mostrar las actividades al iniciar la sección
+
 document.addEventListener("DOMContentLoaded", function () {
     renderizarActividades();
     actualizarResumen();
 });
 
-// Compartir funciones con los demás módulos
+
 window.renderizarActividades = renderizarActividades;
 window.actualizarResumen = actualizarResumen;
 window.formatearValor = formatearValor;
+
+
+window.actualizarVistasActividad = function () {
+    guardarActividades();
+    renderizarActividades();
+    actualizarResumen();
+
+    window.dispatchEvent(
+        new CustomEvent("actividadesActualizadas")
+    );
+};
+
+// Delegación de eventos para cambiar el estado
+listaActividades.addEventListener("change", function (event) {
+
+
+    // Comprobar que el cambio venga del selector de estado
+    if (event.target.classList.contains("selector-estado-actividad")) {
+
+        // Encontrar la tarjeta que contiene el selector
+        const tarjeta = event.target.closest(".tarjeta-listado-actividad");
+
+        if (!tarjeta) return;
+
+        // Obtener el ID de la actividad
+        const idActividad = Number(tarjeta.dataset.actividadId);
+
+        // Buscar la actividad mediante TaskManager
+        const actividad = window.taskManager.findActivityById(idActividad);
+
+        if (!actividad) return;
+
+        // Actualizar el estado
+        actividad.estado = event.target.value;
+
+        // Guardar y actualizar las vistas
+        window.actualizarVistasActividad();
+    }
+
+
+});
+

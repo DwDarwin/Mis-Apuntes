@@ -52,7 +52,39 @@ function actualizarSelectorMaterias() {
     }
 }
 
-const materias = [];
+//const materias = [];
+
+// Clave utilizada para almacenar las materias
+const CLAVE_MATERIAS = "materias";
+
+function cargarMaterias() {
+    const datosGuardados = localStorage.getItem(CLAVE_MATERIAS);
+
+    if (!datosGuardados) {
+        return [];
+    }
+
+    try {
+        const materiasGuardadas = JSON.parse(datosGuardados);
+
+        return Array.isArray(materiasGuardadas)
+            ? materiasGuardadas
+            : [];
+
+    } catch (error) {
+        console.error("Error al recuperar las materias:", error);
+        return [];
+    }
+}
+
+const materias = cargarMaterias();
+
+function guardarMaterias() {
+    localStorage.setItem(
+        CLAVE_MATERIAS,
+        JSON.stringify(materias)
+    );
+}
 
 
 function renderizarMaterias() {
@@ -124,6 +156,7 @@ function renderizarMaterias() {
 
             if (indice !== -1) {
                 materias.splice(indice, 1);
+                guardarMaterias();
                 renderizarMaterias();
             }
         });
@@ -190,7 +223,9 @@ formularioMateria.addEventListener("submit", function (evento) {
         nombre: nombre,
         descripcion: descripcion
     });
-
+    
+    guardarMaterias();    
+    renderizarMaterias();
     renderizarMaterias();
 
     formularioMateria.reset();
