@@ -114,6 +114,54 @@ const taskManager = new TaskManager(actividades);
 
 window.taskManager = taskManager;
 
+// Modal para confirmar la eliminación de actividades
+const modalConfirmarElemento = document.getElementById(
+    "modalConfirmarEliminacion"
+);
+
+const modalConfirmarEliminacion = bootstrap.Modal.getOrCreateInstance(
+    modalConfirmarElemento
+);
+
+const nombreActividadEliminar = document.getElementById(
+    "nombreActividadEliminar"
+);
+
+const botonConfirmarEliminar = document.getElementById(
+    "confirmarEliminarActividad"
+);
+
+let actividadPendienteEliminar = null;
+
+window.solicitarConfirmacionEliminacion = function (actividad) {
+    actividadPendienteEliminar = actividad;
+
+    nombreActividadEliminar.textContent = actividad.nombre;
+
+    modalConfirmarEliminacion.show();
+};
+
+botonConfirmarEliminar.addEventListener("click", function () {
+
+    if (!actividadPendienteEliminar) return;
+
+    const eliminado = window.taskManager.deleteTask(
+        actividadPendienteEliminar.id
+    );
+
+    if (eliminado) {
+        window.actualizarVistasActividad();
+    }
+
+    actividadPendienteEliminar = null;
+
+    modalConfirmarEliminacion.hide();
+});
+
+modalConfirmarElemento.addEventListener("hidden.bs.modal", function () {
+    actividadPendienteEliminar = null;
+});
+
 const campoFecha = document.getElementById("fechaEntrega");
 
 
@@ -129,31 +177,111 @@ function obtenerFechaLocal() {
 campoFecha.min = obtenerFechaLocal();
 
 
+function limpiarErroresActividad() {
+    formulario.querySelectorAll(".field-error").forEach((elemento) => {
+        elemento.textContent = "";
+    });
+
+    formulario.querySelectorAll(".form-control, .form-select").forEach((campo) => {
+        campo.classList.remove("is-invalid");
+        campo.removeAttribute("aria-invalid");
+    });
+}
+
+
+function mostrarErrorActividad(inputId, mensaje) {
+    const campo = document.getElementById(inputId);
+    const error = document.getElementById(`${inputId}-error`);
+
+    if (campo) {
+        campo.classList.add("is-invalid");
+        campo.setAttribute("aria-invalid", "true");
+    }
+
+    if (error) {
+        error.textContent = mensaje;
+    }
+}
+
+
 function validateTaskForm() {
     const nombre = document.getElementById("nombre").value.trim();
     const descripcion = document.getElementById("descripcion").value.trim();
+    const materia = document.getElementById("materia").value;
     const asignadoA = document.getElementById("asignadoA").value.trim();
     const fechaEntrega = campoFecha.value.trim();
 
-    return (
-        nombre.length > 8 &&
-        descripcion.length > 15 &&
-        asignadoA.length > 8 &&
-        fechaEntrega !== ""
-    );
+    let formularioValido = true;
+
+    if (nombre.length <= 8) {
+        mostrarErrorActividad("nombre", "El nombre debe tener más de 8 caracteres.");
+        formularioValido = false;
+    }
+
+    if (descripcion.length <= 15) {
+        mostrarErrorActividad("descripcion", "La descripción debe tener más de 15 caracteres.");
+        formularioValido = false;
+    }
+
+    if (!materia) {
+        mostrarErrorActividad("materia", "Debes seleccionar una materia.");
+        formularioValido = false;
+    }
+
+    if (asignadoA.length <= 8) {
+        mostrarErrorActividad("asignadoA", "El responsable debe tener más de 8 caracteres.");
+        formularioValido = false;
+    }
+
+    if (!fechaEntrega) {
+        mostrarErrorActividad("fechaEntrega", "Debes seleccionar una fecha de entrega.");
+        formularioValido = false;
+    }
+
+    return formularioValido;
 }
+const camposActividad = [
+    "nombre",
+    "descripcion",
+    "materia",
+    "asignadoA",
+    "fechaEntrega"
+];
+
+camposActividad.forEach((id) => {
+    const campo = document.getElementById(id);
+
+    campo.addEventListener("input", function () {
+        campo.classList.remove("is-invalid");
+        campo.removeAttribute("aria-invalid");
+
+        const error = document.getElementById(`${id}-error`);
+
+        if (error) {
+            error.textContent = "";
+        }
+    });
+
+    campo.addEventListener("change", function () {
+        campo.classList.remove("is-invalid");
+        campo.removeAttribute("aria-invalid");
+
+        const error = document.getElementById(`${id}-error`);
+
+        if (error) {
+            error.textContent = "";
+        }
+    });
+});
 
 
 // Registrar una actividad
 formulario.addEventListener("submit", function (evento) {
     evento.preventDefault();
 
-    if (!formulario.reportValidity() || !validateTaskForm()) {
-        window.alert(
-            "Nombre y Responsable deben tener más de 8 caracteres, " +
-            "Descripción debe tener más de 15 caracteres "
+    limpiarErroresActividad();
 
-        );
+    if (!validateTaskForm()) {
         return;
     }
 
@@ -180,6 +308,7 @@ formulario.addEventListener("submit", function (evento) {
     window.dispatchEvent(new CustomEvent("actividadesActualizadas"));
 
     formulario.reset();
+    limpiarErroresActividad();
     campoFecha.min = obtenerFechaLocal();
 
     const botonCerrar = modalElemento.querySelector(
@@ -267,12 +396,12 @@ function renderizarActividades() {
         });
 
         selectorEstado.value = actividad.estado;
-        
+
 
         contenedorEstado.appendChild(etiquetaEstado);
         contenedorEstado.appendChild(selectorEstado);
 
-       
+
         const prioridad = document.createElement("span");
         prioridad.className = "etiqueta-listado";
 
@@ -285,32 +414,22 @@ function renderizarActividades() {
 
         detalles.appendChild(prioridad);
 
-       
+
         tarjeta.appendChild(detalles);
 
-       
+
         const acciones = document.createElement("div");
         acciones.className = "acciones-listado-actividad";
 
-       
+
         const botonEliminar = document.createElement("button");
         botonEliminar.type = "button";
         botonEliminar.textContent = "Eliminar";
         botonEliminar.className = "boton-eliminar btn-eliminar";
 
         botonEliminar.addEventListener("click", function () {
-            const eliminado = taskManager.deleteTask(actividad.id);
-
-            if (eliminado) {
-                renderizarActividades();
-                actualizarResumen();
-
-                window.dispatchEvent(
-                    new CustomEvent("actividadesActualizadas")
-                );
-            }
+            window.solicitarConfirmacionEliminacion(actividad);
         });
-
         acciones.appendChild(botonEliminar);
 
         // Fila inferior: estado y botón eliminar
@@ -322,7 +441,6 @@ function renderizarActividades() {
 
         tarjeta.appendChild(filaAcciones);
 
-        // Agregar tarjeta al listado
         listaActividades.appendChild(tarjeta);
     });
 }
@@ -390,26 +508,20 @@ window.actualizarVistasActividad = function () {
 listaActividades.addEventListener("change", function (event) {
 
 
-    // Comprobar que el cambio venga del selector de estado
     if (event.target.classList.contains("selector-estado-actividad")) {
 
-        // Encontrar la tarjeta que contiene el selector
         const tarjeta = event.target.closest(".tarjeta-listado-actividad");
-
         if (!tarjeta) return;
 
-        // Obtener el ID de la actividad
         const idActividad = Number(tarjeta.dataset.actividadId);
 
-        // Buscar la actividad mediante TaskManager
-        const actividad = window.taskManager.findActivityById(idActividad);
 
+        const actividad = window.taskManager.findActivityById(idActividad);
         if (!actividad) return;
 
-        // Actualizar el estado
+
         actividad.estado = event.target.value;
 
-        // Guardar y actualizar las vistas
         window.actualizarVistasActividad();
     }
 

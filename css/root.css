@@ -36,10 +36,12 @@
 }
 
 
+
+
 /* Boton naranja principal */
 .btn-principal {
-    background-color: var(--acento-principal);
-    color: var(--menu-fondo);
+    background-color: transparent;
+    color: var(--acento-principal);
     border: 1px solid var(--acento-principal);
     border-radius: 8px;
     cursor: pointer;
@@ -80,9 +82,9 @@
 
 
 
-/* ========================================
+/* 
    COMPONENTE GENERAL: TARJETAS
-======================================== */
+ */
 
 .tarjeta-listado-actividad {
     display: flex;
@@ -108,9 +110,9 @@
     font-size: 0.92rem;
 }
 
-/* ========================================
+/*
    COMPONENTE GENERAL: ETIQUETAS
-======================================== */
+*/
 
 .detalles-listado-actividad {
     display: flex;
@@ -127,9 +129,8 @@
     color: var(--texto-secundario); 
 }
 
-/* ========================================
-   COMPONENTE GENERAL: FILA DE ACCIONES
-======================================== */
+
+ /*COMPONENTE GENERAL: FILA DE ACCIONES*/
 
 .fila-acciones-actividad {
     display: flex;
@@ -178,5 +179,59 @@
     color: var(--alerta-green);
     border-color: var(--alerta-green);
 }
+
+
+/* Tarjeta de confirmación de eliminación */
+.modal-confirmacion {
+    background-color: var(--superficie-card);
+    color: var(--texto);
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    padding: 12px;
+}
+
+.icono-confirmacion-eliminar {
+    width: 58px;
+    height: 58px;
+    margin: 8px auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
+    font-size: 1.6rem;
+}
+
+.modal-confirmacion h5 {
+    color: var(--texto);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.mensaje-confirmacion {
+    color: var(--texto-secundario);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.botones-confirmacion {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-cancelar-eliminacion,
+.btn-confirmar-eliminacion {
+    flex: 1;
+    padding: 10px 16px;   
+   
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+
+
 
 

@@ -82,7 +82,7 @@ button {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background-color: #064E3B;
+    background-color: var(--menu-fondo);
     color: var(--acento-glow);
     font-size: 23px;
 }

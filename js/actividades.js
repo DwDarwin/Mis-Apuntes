@@ -241,17 +241,7 @@ function crearTarjetaListado(actividad) {
     botonEliminar.textContent = "Eliminar";
 
     botonEliminar.addEventListener("click", function () {
-        const confirmar = window.confirm(
-            `¿Quieres eliminar la actividad "${actividad.nombre}"?`
-        );
-
-        if (!confirmar) return;
-
-        const eliminado = window.taskManager.deleteTask(actividad.id);
-
-        if (eliminado) {
-            window.actualizarVistasActividad();
-        }
+        window.solicitarConfirmacionEliminacion(actividad);
     });
 
     acciones.appendChild(botonEliminar);

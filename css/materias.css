@@ -34,19 +34,10 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 11px 16px;
-    border: 1px solid var(--acento-principal);
-    border-radius: 9px;
-    background: var(--acento-principal);
-    color: #052E22;
-    font-weight: 700;
-    cursor: pointer;
+    padding: 11px 16px;    
     transition: background 0.2s ease;
 }
 
-.boton-nueva-materia:hover {
-    background: var(--acento-glow);
-}
 
 .resumen-materias {
     display: flex;
