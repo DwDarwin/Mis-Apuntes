@@ -112,5 +112,23 @@
     color: var(--acento-glow);
 }
 
+/* Mensajes de validación */
+.field-error {
+    display: block;
+    margin-top: 5px;
+    color: #EF4444;
+    font-size: 0.8rem;
+}
+
+.field-error:empty {
+    display: none;
+}
+
+/* Resaltar campos incorrectos */
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: #EF4444;
+}
+
 
 
