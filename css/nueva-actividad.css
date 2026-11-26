@@ -45,7 +45,7 @@
 .modal-academico .form-control:focus,
 .modal-academico .form-select:focus {
     border-color: var(--acento-principal);
-    box-shadow: 0 0 0 3px #10B98125;
+    box-shadow: 0 0 0 3px var(--acento-glow);
 }
 
 .modal-academico input[type="date"] {

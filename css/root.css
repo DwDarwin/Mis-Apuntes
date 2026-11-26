@@ -235,3 +235,28 @@
 
 
 
+.estado-pendiente {
+    background-color: #b3b4b5;
+    color: #475569;
+}
+
+.estado-progreso {
+    background-color: #b3b4b5;
+    color: #c2410c;
+}
+
+.estado-completado {
+    background-color: var(--menu-activo);
+    color: var(--acento-glow);
+    border-color: var(--menu-fondo);
+    font-weight: 600;
+}
+
+.selector-estado-actividad.estado-completado:disabled {
+    background-color: rgba(172, 255, 47, 0.107);
+    color: var(--acento-glow);
+    border-color: var(--menu-fondo);
+    opacity: 1;
+    font-weight: 600;
+    cursor: not-allowed;
+}

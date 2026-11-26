@@ -1,3 +1,4 @@
+import { apiRequest } from "./api.js";
 const formulario = document.getElementById("formulario-actividad");
 const listaActividades = document.getElementById("lista-actividades");
 const estadoVacio = document.querySelector(".estado-vacio");
@@ -6,43 +7,43 @@ const modalElemento = document.getElementById("modalActividad");
 const modalActividad = bootstrap.Modal.getOrCreateInstance(modalElemento);
 
 
-//const actividades = [];
 
-// Clave para almacenar las actividades en localStorage
-const CLAVE_ACTIVIDADES = "actividades";
+let actividades = [];
 
+window.actividades = actividades;
 
-function cargarActividades() {
-    const datosGuardados = localStorage.getItem(CLAVE_ACTIVIDADES);
-
-    if (!datosGuardados) {
-        return [];
-    }
-
+async function cargarActividades() {
     try {
-        const actividadesGuardadas = JSON.parse(datosGuardados);
+        const respuesta = await apiRequest("/actividades");
 
-        return Array.isArray(actividadesGuardadas)
-            ? actividadesGuardadas
-            : [];
+        actividades = respuesta.map(adaptarActividad);
+
+
+        window.actividades = actividades;
+
+        // Actualizar los datos del TaskManager
+        taskManager.actividades = actividades;
+
+        renderizarActividades();
+        actualizarResumen();
+
+        window.dispatchEvent(
+            new CustomEvent("actividadesActualizadas")
+        );
 
     } catch (error) {
-        console.error("Error al recuperar las actividades:", error);
-        return [];
+        console.error("Error al cargar las actividades:", error);
+        alert("No fue posible cargar las actividades.");
     }
 }
 
-const actividades = cargarActividades();
-
-function guardarActividades() {
-    localStorage.setItem(
-        CLAVE_ACTIVIDADES,
-        JSON.stringify(actividades)
-    );
+function adaptarActividad(actividad) {
+    return {
+        ...actividad,
+        materia: actividad.materiaNombre || "",
+        materiaId: actividad.materiaId
+    };
 }
-
-window.guardarActividades = guardarActividades;
-
 
 
 
@@ -58,14 +59,17 @@ class TaskManager {
     }
 
 
-    addTask(actividad) {
-        this.contadorId++;
+    async addTask(actividad) {
+        const respuesta = await apiRequest("/actividades", {
+            method: "POST",
+            body: JSON.stringify(actividad)
+        });
 
-        actividad.id = this.contadorId;
+        const nuevaActividad = adaptarActividad(respuesta);
 
-        this.actividades.push(actividad);
+        this.actividades.push(nuevaActividad);
 
-        guardarActividades();
+        return nuevaActividad;
     }
 
 
@@ -74,7 +78,7 @@ class TaskManager {
     }
 
 
-    //window.taskManager.findActivityById(1); (para escribir en consola y probar la funcion)
+
     findActivityById(id) {
 
         let actividadEncontrada;
@@ -89,21 +93,56 @@ class TaskManager {
         return actividadEncontrada;
     }
 
+    async updateTask(id, cambios) {
 
-    deleteTask(id) {
-        const indice = this.actividades.findIndex(
-            actividad => actividad.id === id
-        );
+        const actividad = this.findActivityById(id);
 
-        if (indice === -1) {
-            return false;
+        if (!actividad) {
+            throw new Error("No se encontró la actividad.");
         }
 
-        this.actividades.splice(indice, 1);
+        const actividadActualizada = {
+            nombre: actividad.nombre,
+            descripcion: actividad.descripcion,
+            asignadoA: actividad.asignadoA,
+            fechaEntrega: actividad.fechaEntrega,
+            estado: cambios.estado ?? actividad.estado,
+            prioridad: actividad.prioridad,
+            materiaId: actividad.materiaId
+        };
 
-        guardarActividades();
+        const respuesta = await apiRequest(`/actividades/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(actividadActualizada)
+        });
 
-        return true;
+        Object.assign(actividad, adaptarActividad(respuesta));
+
+        return actividad;
+    }
+
+
+
+    async deleteTask(id) {
+        try {
+            await apiRequest(`/actividades/${id}`, {
+                method: "DELETE"
+            });
+
+            const indice = this.actividades.findIndex(
+                actividad => actividad.id === Number(id)
+            );
+
+            if (indice !== -1) {
+                this.actividades.splice(indice, 1);
+            }
+
+            return true;
+
+        } catch (error) {
+            console.error("Error al eliminar la actividad:", error);
+            throw error;
+        }
     }
 }
 
@@ -140,22 +179,25 @@ window.solicitarConfirmacionEliminacion = function (actividad) {
 
     modalConfirmarEliminacion.show();
 };
-
-botonConfirmarEliminar.addEventListener("click", function () {
+botonConfirmarEliminar.addEventListener("click", async function () {
 
     if (!actividadPendienteEliminar) return;
 
-    const eliminado = window.taskManager.deleteTask(
-        actividadPendienteEliminar.id
-    );
+    try {
+        const eliminado = await window.taskManager.deleteTask(
+            actividadPendienteEliminar.id
+        );
 
-    if (eliminado) {
-        window.actualizarVistasActividad();
+        if (eliminado) {
+            window.actualizarVistasActividad();
+        }
+
+        actividadPendienteEliminar = null;
+        modalConfirmarEliminacion.hide();
+
+    } catch (error) {
+        alert(error.message || "No fue posible eliminar la actividad.");
     }
-
-    actividadPendienteEliminar = null;
-
-    modalConfirmarEliminacion.hide();
 });
 
 modalConfirmarElemento.addEventListener("hidden.bs.modal", function () {
@@ -172,6 +214,13 @@ function obtenerFechaLocal() {
     const dia = String(ahora.getDate()).padStart(2, "0");
 
     return `${anio}-${mes}-${dia}`;
+}
+function obtenerActividadesDeHoy() {
+    const fechaActual = obtenerFechaLocal();
+
+    return actividades.filter(function (actividad) {
+        return actividad.fechaEntrega === fechaActual;
+    });
 }
 
 campoFecha.min = obtenerFechaLocal();
@@ -276,7 +325,7 @@ camposActividad.forEach((id) => {
 
 
 // Registrar una actividad
-formulario.addEventListener("submit", function (evento) {
+formulario.addEventListener("submit", async function (evento) {
     evento.preventDefault();
 
     limpiarErroresActividad();
@@ -288,7 +337,7 @@ formulario.addEventListener("submit", function (evento) {
     const actividad = {
         nombre: document.getElementById("nombre").value.trim(),
         descripcion: document.getElementById("descripcion").value.trim(),
-        materia: document.getElementById("materia").value.trim(),
+        materiaId: Number(document.getElementById("materia").value),
         asignadoA: document.getElementById("asignadoA").value.trim(),
         fechaEntrega: campoFecha.value,
         estado: "PENDIENTE",
@@ -300,16 +349,21 @@ formulario.addEventListener("submit", function (evento) {
         return;
     }
 
-    taskManager.addTask(actividad);
+    try {
+        await taskManager.addTask(actividad);
 
-    renderizarActividades();
-    actualizarResumen();
+        renderizarActividades();
+        actualizarResumen();
 
-    window.dispatchEvent(new CustomEvent("actividadesActualizadas"));
+        window.dispatchEvent(
+            new CustomEvent("actividadesActualizadas")
+        );
 
-    formulario.reset();
-    limpiarErroresActividad();
-    campoFecha.min = obtenerFechaLocal();
+    } catch (error) {
+        console.error("Error al crear la actividad:", error);
+        alert(error.message || "No fue posible crear la actividad.");
+        return;
+    }
 
     const botonCerrar = modalElemento.querySelector(
         '[data-bs-dismiss="modal"]'
@@ -325,9 +379,11 @@ formulario.addEventListener("submit", function (evento) {
 function renderizarActividades() {
     listaActividades.replaceChildren();
 
-    estadoVacio.hidden = actividades.length > 0;
+    const actividadesDeHoy = obtenerActividadesDeHoy();
 
-    actividades.forEach(function (actividad) {
+    estadoVacio.hidden = actividadesDeHoy.length > 0;
+
+    actividadesDeHoy.forEach(function (actividad) {
         const tarjeta = document.createElement("article");
         tarjeta.className = "tarjeta-listado-actividad";
         tarjeta.dataset.actividadId = actividad.id;
@@ -397,6 +453,11 @@ function renderizarActividades() {
 
         selectorEstado.value = actividad.estado;
 
+        actualizarColorEstado(selectorEstado);
+
+        // Bloquear si la actividad ya está completada
+        selectorEstado.disabled = actividad.estado === "COMPLETADA";
+
 
         contenedorEstado.appendChild(etiquetaEstado);
         contenedorEstado.appendChild(selectorEstado);
@@ -459,6 +520,23 @@ function formatearValor(valor) {
 
     return etiquetas[valor] || valor;
 }
+function actualizarColorEstado(selector) {
+    selector.classList.remove(
+        "estado-pendiente",
+        "estado-progreso",
+        "estado-completado"
+    );
+
+    if (selector.value === "COMPLETADA") {
+        selector.classList.add("estado-completado");
+    } else if (selector.value === "EN_PROGRESO") {
+        selector.classList.add("estado-progreso");
+    } else {
+        selector.classList.add("estado-pendiente");
+    }
+}
+
+window.actualizarColorEstado = actualizarColorEstado;
 
 
 function actualizarResumen() {
@@ -484,8 +562,7 @@ function actualizarResumen() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    renderizarActividades();
-    actualizarResumen();
+    cargarActividades();
 });
 
 
@@ -495,7 +572,7 @@ window.formatearValor = formatearValor;
 
 
 window.actualizarVistasActividad = function () {
-    guardarActividades();
+
     renderizarActividades();
     actualizarResumen();
 
@@ -505,26 +582,54 @@ window.actualizarVistasActividad = function () {
 };
 
 // Delegación de eventos para cambiar el estado
-listaActividades.addEventListener("change", function (event) {
-
+listaActividades.addEventListener("change", async function (event) {
 
     if (event.target.classList.contains("selector-estado-actividad")) {
 
-        const tarjeta = event.target.closest(".tarjeta-listado-actividad");
+        const selector = event.target;
+
+        const tarjeta = selector.closest(".tarjeta-listado-actividad");
         if (!tarjeta) return;
 
         const idActividad = Number(tarjeta.dataset.actividadId);
 
-
         const actividad = window.taskManager.findActivityById(idActividad);
         if (!actividad) return;
 
+        if (actividad.estado === "COMPLETADA") {
+            selector.value = "COMPLETADA";
+            selector.disabled = true;
+            return;
+        }
 
-        actividad.estado = event.target.value;
+        const estadoAnterior = actividad.estado;
+        const nuevoEstado = selector.value;
 
-        window.actualizarVistasActividad();
+        // Evitar cambios mientras se guarda
+        selector.disabled = true;
+
+        try {
+
+            await window.taskManager.updateTask(idActividad, {
+                estado: nuevoEstado
+            });
+
+            actualizarColorEstado(selector);
+
+            window.actualizarVistasActividad();
+
+        } catch (error) {
+
+            console.error("Error al actualizar el estado:", error);
+
+            selector.value = estadoAnterior;
+
+            alert(error.message || "No fue posible actualizar el estado.");
+
+        } finally {
+
+            selector.disabled = false;
+        }
     }
-
-
 });
 

@@ -117,14 +117,14 @@
     height: 34px;
     border: 1px solid var(--borde);
     border-radius: 8px;
-    background: transparent;
-    color: var(--texto-secundario);
+    background: #10B98120;
+    color: var(--acento-glow);
     cursor: pointer;
 }
 
 .boton-eliminar-materia:hover {
-    border-color: var(--alerta-green);
-    color: var(--alerta-green);
+    border-color: var(--acento-principal);
+    color: var(--acento-principal);
 }
 
 .tarjeta-materia h3 {
