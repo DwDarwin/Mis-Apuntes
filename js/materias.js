@@ -1,3 +1,4 @@
+import { apiRequest } from "./api.js";
 const formularioMateria = document.getElementById("formulario-materia");
 const listaMaterias = document.getElementById("lista-materias");
 const totalMaterias = document.getElementById("total-materias");
@@ -40,50 +41,30 @@ function actualizarSelectorMaterias() {
     materias.forEach(function (materia) {
         const opcion = document.createElement("option");
 
-        opcion.value = materia.nombre;
+        opcion.value = materia.id;
         opcion.textContent = materia.nombre;
 
         selectorMateria.appendChild(opcion);
     });
 
     // Conservar la selección si la materia todavía existe
-    if (materias.some(materia => materia.nombre === materiaSeleccionada)) {
+    if (materias.some(materia => String(materia.id) === materiaSeleccionada)) {
         selectorMateria.value = materiaSeleccionada;
     }
 }
 
-//const materias = [];
 
-// Clave utilizada para almacenar las materias
-const CLAVE_MATERIAS = "materias";
+let materias = [];
 
-function cargarMaterias() {
-    const datosGuardados = localStorage.getItem(CLAVE_MATERIAS);
-
-    if (!datosGuardados) {
-        return [];
-    }
-
+async function cargarMaterias() {
     try {
-        const materiasGuardadas = JSON.parse(datosGuardados);
-
-        return Array.isArray(materiasGuardadas)
-            ? materiasGuardadas
-            : [];
+        materias = await apiRequest("/materias");
+        renderizarMaterias();
 
     } catch (error) {
-        console.error("Error al recuperar las materias:", error);
-        return [];
+        console.error("Error al cargar las materias:", error);
+        window.alert(error.message);
     }
-}
-
-const materias = cargarMaterias();
-
-function guardarMaterias() {
-    localStorage.setItem(
-        CLAVE_MATERIAS,
-        JSON.stringify(materias)
-    );
 }
 
 
@@ -141,23 +122,26 @@ function renderizarMaterias() {
 
         botonEliminar.appendChild(iconoEliminar);
 
-        botonEliminar.addEventListener("click", function () {
+        botonEliminar.addEventListener("click", async function () {
             const confirmar = window.confirm(
                 `¿Deseas eliminar la materia "${materia.nombre}"?`
             );
 
-            if (!confirmar) {
-                return;
-            }
+            if (!confirmar) return;
 
-            const indice = materias.findIndex(function (elemento) {
-                return elemento.id === materia.id;
-            });
+            try {
+                await apiRequest(`/materias/${materia.id}`, {
+                    method: "DELETE"
+                });
 
-            if (indice !== -1) {
-                materias.splice(indice, 1);
-                guardarMaterias();
+                materias = materias.filter(
+                    elemento => elemento.id !== materia.id
+                );
+
                 renderizarMaterias();
+
+            } catch (error) {
+                window.alert(error.message);
             }
         });
 
@@ -190,18 +174,16 @@ function renderizarMaterias() {
     });
 }
 
-formularioMateria.addEventListener("submit", function (evento) {
+formularioMateria.addEventListener("submit", async function (evento) {
     evento.preventDefault();
 
     const nombre = document
         .getElementById("nombre-materia")
-        .value
-        .trim();
+        .value.trim();
 
     const descripcion = document
         .getElementById("descripcion-materia")
-        .value
-        .trim();
+        .value.trim();
 
     if (!nombre) {
         document.getElementById("nombre-materia").focus();
@@ -218,22 +200,28 @@ formularioMateria.addEventListener("submit", function (evento) {
         return;
     }
 
-    materias.push({
-        id: Date.now(),
-        nombre: nombre,
-        descripcion: descripcion
-    });
-    
-    guardarMaterias();    
-    renderizarMaterias();
-    renderizarMaterias();
+    try {
+        const nuevaMateria = await apiRequest("/materias", {
+            method: "POST",
+            body: JSON.stringify({
+                nombre: nombre,
+                descripcion: descripcion
+            })
+        });
 
-    formularioMateria.reset();
+        materias.push(nuevaMateria);
 
-    const botonCerrar = modalMateriaElemento.querySelector(".btn-close");
+        renderizarMaterias();
+        formularioMateria.reset();
 
-    if (botonCerrar) {
-        botonCerrar.click();
+        const botonCerrar = modalMateriaElemento.querySelector(".btn-close");
+
+        if (botonCerrar) {
+            botonCerrar.click();
+        }
+
+    } catch (error) {
+        window.alert(error.message);
     }
 });
 
@@ -243,4 +231,4 @@ window.addEventListener("actividadesActualizadas", function () {
 });
 
 
-renderizarMaterias();
+cargarMaterias();

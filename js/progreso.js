@@ -84,7 +84,11 @@ function renderizarProgresoMaterias(actividades) {
     const materiasAgrupadas = new Map();
 
     actividades.forEach(function (actividad) {
-        const nombreMateria = actividad.materia.trim() || "Sin materia";
+        const nombreMateria = (
+            actividad.materiaNombre ||
+            actividad.materia ||
+            ""
+        ).trim() || "Sin materia";
 
         if (!materiasAgrupadas.has(nombreMateria)) {
             materiasAgrupadas.set(nombreMateria, {

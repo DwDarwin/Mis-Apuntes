@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./css/main.css">
 
 
 </head>
@@ -33,8 +33,8 @@
 
                 <div class="datos-usuario">
                     <span class="saludo-usuario">Bienvenido/a</span>
-                    <strong id="nombre-usuario">Darwin</strong>
-                    <span class="rol-usuario">Estudiante</span>
+                    <strong id="nombre-usuario"></strong>
+                    <span class="rol-usuario" id="rol-usuario"></span>
                 </div>
             </div>
 
@@ -67,8 +67,7 @@
 
             <div class="menu-inferior">
                 <p>Organizo mi tiempo, alcanzo mis metas.</p>
-
-                <a href="../login.html" class="enlace-cerrar-sesion">
+                <a href="#" id="cerrar-sesion" class="enlace-cerrar-sesion">
                     <i class="bi bi-box-arrow-left"></i>
                     <span>Cerrar sesión</span>
                 </a>
@@ -544,11 +543,13 @@
                             </p>
 
                             <div class="botones-confirmacion">
-                                <button type="button" class="btn-secundario btn-cancelar-eliminacion" data-bs-dismiss="modal">
+                                <button type="button" class="btn-secundario btn-cancelar-eliminacion"
+                                    data-bs-dismiss="modal">
                                     Cancelar
                                 </button>
 
-                                <button type="button" class="boton-eliminar btn-confirmar-eliminacion" id="confirmarEliminarActividad">
+                                <button type="button" class="boton-eliminar btn-confirmar-eliminacion"
+                                    id="confirmarEliminarActividad">
                                     Eliminar
                                 </button>
                             </div>
@@ -577,11 +578,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script type="module" src="../js/materias.js"></script>
-    <script type="module" src="../js/actividades.js"></script>
-    <script type="module" src="../js/nueva-actividad.js"></script>
-    <script type="module" src="../js/progreso.js"></script>
-    <script src="../js/navegacion.js"></script>
+    <script type="module" src="./js/perfil-usuario.js"></script>
+    <script type="module" src="./js/materias.js"></script>
+    <script type="module" src="./js/actividades.js"></script>
+    <script type="module" src="./js/nueva-actividad.js"></script>
+    <script type="module" src="./js/progreso.js"></script>
+    <script src="./js/navegacion.js"></script>
 
 </body>
 

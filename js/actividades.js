@@ -228,6 +228,11 @@ function crearTarjetaListado(actividad) {
 
     selectorEstado.value = actividad.estado;
 
+    window.actualizarColorEstado(selectorEstado);
+
+    // Bloquear si la actividad ya está completada
+    selectorEstado.disabled = actividad.estado === "COMPLETADA";
+
     contenedorEstado.appendChild(etiquetaEstado);
     contenedorEstado.appendChild(selectorEstado);
 
@@ -271,29 +276,50 @@ function agregarEtiqueta(contenedor, texto) {
 
 
 // Delegación de eventos para cambiar el estado
-listadoActividades.addEventListener("change", function (event) {
+listadoActividades.addEventListener("change", async function (event) {
 
+    if (!event.target.classList.contains("selector-estado-actividad")) {
+        return;
+    }
 
-    if (event.target.classList.contains("selector-estado-actividad")) {
+    const selector = event.target;
+    const tarjeta = selector.closest(".tarjeta-listado-actividad");
 
+    if (!tarjeta) return;
 
-        const tarjeta = event.target.closest(".tarjeta-listado-actividad");
-        //console.log("Elemento de la tarea:", tarjeta);
-        //console.log("ID de la tarea:", tarjeta.dataset.actividadId);
+    const idActividad = Number(tarjeta.dataset.actividadId);
 
-        if (!tarjeta) return;
+    const actividad = window.taskManager.findActivityById(idActividad);
 
+    if (!actividad) return;
 
-        const idActividad = Number(tarjeta.dataset.actividadId);
+    // Impedir modificar una actividad completada
+    if (actividad.estado === "COMPLETADA") {
+        selector.value = "COMPLETADA";
+        selector.disabled = true;
+        return;
+    }
 
-        // Buscar la actividad mediante TaskManager
-        const actividad = window.taskManager.findActivityById(idActividad);
+    const estadoAnterior = actividad.estado;
+    const nuevoEstado = selector.value;
 
-        if (!actividad) return;
+    selector.disabled = true;
 
-
-        actividad.estado = event.target.value;
+    try {
+        await window.taskManager.updateTask(idActividad, {
+            estado: nuevoEstado
+        });
 
         window.actualizarVistasActividad();
+
+    } catch (error) {
+        console.error("Error al actualizar el estado:", error);
+
+        selector.value = estadoAnterior;
+
+        alert(error.message || "No fue posible actualizar el estado.");
+
+    } finally {
+        selector.disabled = actividad.estado === "COMPLETADA";
     }
 });

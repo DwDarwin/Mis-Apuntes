@@ -319,8 +319,8 @@ button {
 }
 
 .icono-naranja {
-    background-color: #F59E0B20;
-    color: var(--alerta-green);
+    background-color: #10B98120;
+    color: var(--acento-glow);
 }
 
 .tarjeta-resumen p {
@@ -344,7 +344,7 @@ button {
 
 .panel-actividades {
     overflow: hidden;
-    border: 1px solid var(--borde);
+    border: 1px solid transparent;
     border-radius: 13px;
     background-color: var(--fondo);
 }
@@ -355,7 +355,7 @@ button {
     justify-content: space-between;
     gap: 16px;
     padding: 23px 25px;
-    border-bottom: 1px solid var(--borde);
+    border-bottom: 1px solid transparent;
 }
 
 .encabezado-panel h2 {
@@ -460,8 +460,8 @@ button {
 }
 
 .etiqueta-prioridad-alta {
-    color: var(--alerta-green);
-    border-color: var(--alerta-green);
+    color: var(--acento-glow);
+    border-color: var(--acento-glow);
 }
 
 .etiqueta-estado-completada {
@@ -573,3 +573,5 @@ button {
         animation-duration: 0.01ms;
     }
 }
+
+

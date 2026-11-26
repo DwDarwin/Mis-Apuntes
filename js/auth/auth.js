@@ -1,3 +1,9 @@
+import {
+    apiRequest,
+    guardarToken,
+    guardarUsuario
+} from "../api.js";
+
 const authLayout = document.getElementById("auth-layout");
 const loginForm = document.getElementById("login-form");
 const registerForm = document.getElementById("register-form");
@@ -95,18 +101,21 @@ document.querySelectorAll(".auth-form input").forEach((input) => {
     });
 });
 
-loginForm.addEventListener("submit", (event) => {
+
+loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearMessages(loginForm);
 
     const email = document.getElementById("login-email");
     const password = document.getElementById("login-password");
+
     let valid = true;
 
     if (!email.value.trim() || !email.validity.valid) {
         showFieldError("login-email", "Ingresa un correo electrónico válido.");
         valid = false;
     }
+
     if (!password.value) {
         showFieldError("login-password", "Ingresa tu contraseña.");
         valid = false;
@@ -117,12 +126,43 @@ loginForm.addEventListener("submit", (event) => {
 
     if (!valid) return;
 
-    showMessage(loginForm,
-        "en construccion",
-        "success");
+    try {
+        const respuesta = await apiRequest("/auth/login", {
+            method: "POST",
+            body: JSON.stringify({
+                correo: email.value.trim(),
+                password: password.value
+            })
+        });
+
+        if (!respuesta?.token) {
+            throw new Error("El servidor no devolvió un token válido.");
+        }
+
+        guardarToken(respuesta.token);
+
+        guardarUsuario({
+            id: respuesta.id,
+            nombre: respuesta.nombre,
+            correo: respuesta.correo,
+            rol: respuesta.rol
+        });
+
+        showMessage(loginForm, "¡Inicio de sesión exitoso!", "success");
+
+        console.log("Usuario autenticado:", respuesta);
+        setTimeout(() => {
+            window.location.href = "/index.html";
+        }, 800);
+
+    } catch (error) {
+        showMessage(loginForm, error.message);
+    }
 });
 
-registerForm.addEventListener("submit", (event) => {
+
+
+registerForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearMessages(registerForm);
 
@@ -130,20 +170,24 @@ registerForm.addEventListener("submit", (event) => {
     const email = document.getElementById("register-email");
     const password = document.getElementById("register-password");
     const confirmPassword = document.getElementById("register-confirm-password");
+
     let valid = true;
 
     if (!name.value.trim()) {
         showFieldError("register-name", "Ingresa tu nombre.");
         valid = false;
     }
+
     if (!email.value.trim() || !email.validity.valid) {
         showFieldError("register-email", "Ingresa un correo electrónico válido.");
         valid = false;
     }
+
     if (password.value.length < 8) {
         showFieldError("register-password", "Usa al menos 8 caracteres.");
         valid = false;
     }
+
     if (!confirmPassword.value || confirmPassword.value !== password.value) {
         showFieldError("register-confirm-password", "Las contraseñas no coinciden.");
         valid = false;
@@ -151,7 +195,35 @@ registerForm.addEventListener("submit", (event) => {
 
     if (!valid) return;
 
-    showMessage(registerForm,
-        "En construccion.",
-        "success");
+    try {
+        await apiRequest("/auth/registro", {
+            method: "POST",
+            body: JSON.stringify({
+                nombre: name.value.trim(),
+                correo: email.value.trim(),
+                password: password.value
+            })
+        });
+
+        registerForm.reset();
+
+        showMessage(
+            registerForm,
+            "¡Cuenta creada correctamente! Ahora puedes iniciar sesión.",
+            "success"
+        );
+
+        setTimeout(() => {
+            switchToLogin();
+
+            showMessage(
+                loginForm,
+                "¡Cuenta creada! Ahora inicia sesión.",
+                "success"
+            );
+        }, 1500);
+
+    } catch (error) {
+        showMessage(registerForm, error.message);
+    }
 });

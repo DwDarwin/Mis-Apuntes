@@ -129,7 +129,7 @@
 }
 
 .etiqueta-prioridad-alta {
-    color: var(--alerta-green);
+    color: var(--acento-glow);
     border-color: var(--alerta-green);
 }
 
