@@ -236,26 +236,27 @@
 
 
 .estado-pendiente {
-    background-color: #b3b4b5;
-    color: #475569;
+    background-color: #aa83bee2;
+    color:var(--texto);
 }
 
 .estado-progreso {
-    background-color: #b3b4b5;
-    color: #c2410c;
+    background-color: #9564adb8;
+    color: var(--texto);
+    border-color: var(--borde);
 }
 
 .estado-completado {
     background-color: var(--menu-activo);
-    color: var(--acento-glow);
-    border-color: var(--menu-fondo);
+    color: var(--texto);
+    border-color: var(--borde);
     font-weight: 600;
 }
 
 .selector-estado-actividad.estado-completado:disabled {
-    background-color: rgba(172, 255, 47, 0.107);
-    color: var(--acento-glow);
-    border-color: var(--menu-fondo);
+    background-color: #392742b8;
+    color: var(--texto);
+    border-color: var(--borde);
     opacity: 1;
     font-weight: 600;
     cursor: not-allowed;

@@ -1,5 +1,4 @@
-
-const API_URL = "http://localhost:8080/api";
+const API_URL = "https://backend-agenda-personal.onrender.com";
 
 const CLAVE_TOKEN = "token";
 const CLAVE_USUARIO = "usuario";
@@ -70,8 +69,8 @@ export async function apiRequest(endpoint, opciones = {}) {
     if (
         respuesta.status === 401 &&
         token &&
-        endpoint !== "/auth/login" &&
-        endpoint !== "/auth/registro"
+        endpoint !== "/api/auth/login" &&
+        endpoint !== "/api/auth/registro"
     ) {
         eliminarToken();
         eliminarUsuario();

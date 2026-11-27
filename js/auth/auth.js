@@ -127,7 +127,7 @@ loginForm.addEventListener("submit", async (event) => {
     if (!valid) return;
 
     try {
-        const respuesta = await apiRequest("/auth/login", {
+        const respuesta = await apiRequest("/api/auth/login", {
             method: "POST",
             body: JSON.stringify({
                 correo: email.value.trim(),
@@ -196,7 +196,7 @@ registerForm.addEventListener("submit", async (event) => {
     if (!valid) return;
 
     try {
-        await apiRequest("/auth/registro", {
+        await apiRequest("/api/auth/registro", {
             method: "POST",
             body: JSON.stringify({
                 nombre: name.value.trim(),
