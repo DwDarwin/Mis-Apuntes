@@ -14,7 +14,7 @@ window.actividades = actividades;
 
 async function cargarActividades() {
     try {
-        const respuesta = await apiRequest("/actividades");
+        const respuesta = await apiRequest("/api/actividades");
 
         actividades = respuesta.map(adaptarActividad);
 
@@ -60,7 +60,7 @@ class TaskManager {
 
 
     async addTask(actividad) {
-        const respuesta = await apiRequest("/actividades", {
+        const respuesta = await apiRequest("/api/actividades", {
             method: "POST",
             body: JSON.stringify(actividad)
         });
@@ -111,7 +111,7 @@ class TaskManager {
             materiaId: actividad.materiaId
         };
 
-        const respuesta = await apiRequest(`/actividades/${id}`, {
+        const respuesta = await apiRequest(`/api/actividades/${id}`, {
             method: "PUT",
             body: JSON.stringify(actividadActualizada)
         });
@@ -125,7 +125,7 @@ class TaskManager {
 
     async deleteTask(id) {
         try {
-            await apiRequest(`/actividades/${id}`, {
+            await apiRequest(`/api/actividades/${id}`, {
                 method: "DELETE"
             });
 

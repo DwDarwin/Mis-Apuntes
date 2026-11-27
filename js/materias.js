@@ -4,6 +4,47 @@ const listaMaterias = document.getElementById("lista-materias");
 const totalMaterias = document.getElementById("total-materias");
 const modalMateriaElemento = document.getElementById("modalMateria");
 
+// Referencias al modal de confirmación existente
+const modalConfirmarElemento = document.getElementById(
+    "modalConfirmarEliminacion"
+);
+
+const modalConfirmar = bootstrap.Modal.getOrCreateInstance(
+    modalConfirmarElemento
+);
+
+const nombreActividadEliminar = document.getElementById(
+    "nombreActividadEliminar"
+);
+
+let materiaPendienteEliminar = null;
+
+const botonConfirmarEliminar = document.getElementById(
+    "confirmarEliminarActividad"
+);
+
+
+const mensajesMaterias = document.getElementById("mensajes-materias");
+
+function mostrarMensajeMateria(mensaje, tipo = "success") {
+    mensajesMaterias.replaceChildren();
+
+    const alerta = document.createElement("div");
+
+    alerta.className = `alert alert-${tipo} alert-dismissible fade show`;
+    alerta.setAttribute("role", "alert");
+    alerta.textContent = mensaje;
+
+    const botonCerrar = document.createElement("button");
+    botonCerrar.type = "button";
+    botonCerrar.className = "btn-close";
+    botonCerrar.setAttribute("data-bs-dismiss", "alert");
+    botonCerrar.setAttribute("aria-label", "Cerrar");
+
+    alerta.appendChild(botonCerrar);
+    mensajesMaterias.appendChild(alerta);
+}
+
 const modalMateria = bootstrap.Modal.getOrCreateInstance(
     modalMateriaElemento,
     {
@@ -58,7 +99,7 @@ let materias = [];
 
 async function cargarMaterias() {
     try {
-        materias = await apiRequest("/materias");
+        materias = await apiRequest("/api/materias");
         renderizarMaterias();
 
     } catch (error) {
@@ -122,29 +163,13 @@ function renderizarMaterias() {
 
         botonEliminar.appendChild(iconoEliminar);
 
-        botonEliminar.addEventListener("click", async function () {
-            const confirmar = window.confirm(
-                `¿Deseas eliminar la materia "${materia.nombre}"?`
-            );
+        botonEliminar.addEventListener("click", function () {
+            materiaPendienteEliminar = materia;
 
-            if (!confirmar) return;
+            nombreActividadEliminar.textContent = materia.nombre;
 
-            try {
-                await apiRequest(`/materias/${materia.id}`, {
-                    method: "DELETE"
-                });
-
-                materias = materias.filter(
-                    elemento => elemento.id !== materia.id
-                );
-
-                renderizarMaterias();
-
-            } catch (error) {
-                window.alert(error.message);
-            }
+            modalConfirmar.show();
         });
-
         cabecera.append(icono, botonEliminar);
 
         const nombre = document.createElement("h3");
@@ -174,6 +199,65 @@ function renderizarMaterias() {
     });
 }
 
+async function eliminarMateria(materia) {  
+    
+
+    try {
+        await apiRequest(`/api/materias/${materia.id}`, {
+            method: "DELETE"
+        });
+
+        materias = materias.filter(
+            elemento => elemento.id !== materia.id
+        );
+
+        renderizarMaterias();
+
+        mostrarMensajeMateria(
+            `La materia "${materia.nombre}" se eliminó correctamente.`,
+            "success"
+        );
+
+    } catch (error) {
+    console.error("Error al eliminar la materia:", error);
+
+    if (error.status === 403) {
+        mostrarMensajeMateria(
+            "No se puede eliminar esta materia porque tiene actividades asociadas.",
+            "warning"
+        );
+    } else {
+        mostrarMensajeMateria(
+            error.message || "No fue posible eliminar la materia.",
+            "danger"
+        );
+    }
+
+    throw error;
+}
+}
+
+modalConfirmarElemento.addEventListener("hidden.bs.modal", function () {
+    materiaPendienteEliminar = null;
+});
+
+botonConfirmarEliminar.addEventListener("click", async function () {
+    if (!materiaPendienteEliminar) return;
+
+    botonConfirmarEliminar.disabled = true;
+
+    try {
+        await eliminarMateria(materiaPendienteEliminar);
+
+        // Cerrar el modal solamente si la eliminación fue exitosa
+        modalConfirmar.hide();
+
+    } finally {
+        botonConfirmarEliminar.disabled = false;
+    }
+});
+
+
 formularioMateria.addEventListener("submit", async function (evento) {
     evento.preventDefault();
 
@@ -196,12 +280,17 @@ formularioMateria.addEventListener("submit", async function (evento) {
     });
 
     if (existe) {
-        window.alert("Ya existe una materia con ese nombre.");
-        return;
-    }
+    mostrarMensajeMateria(
+        "Ya existe una materia con ese nombre.",
+        "warning"
+    );
+    return;
+}
+    
+
 
     try {
-        const nuevaMateria = await apiRequest("/materias", {
+        const nuevaMateria = await apiRequest("/api/materias", {
             method: "POST",
             body: JSON.stringify({
                 nombre: nombre,
